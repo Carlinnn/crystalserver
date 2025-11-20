@@ -1483,7 +1483,7 @@ public:
 	void sendPlayerTyping(const std::shared_ptr<Creature> &creature, uint8_t typing) const;
 
 	void resetOldCharms();
-	bool isFirstOnStack() const;
+	[[nodiscard]] bool isFirstOnStack() const;
 
 	/*******************************************************************************
 	 * Deflect Condition
@@ -1528,6 +1528,11 @@ public:
 	uint16_t getMantraTotal() const;
 
 	std::unordered_map<uint16_t, uint8_t> spellActivedAimMap;
+
+	using ManagedContainerMap = std::map<ObjectCategory_t, std::pair<std::shared_ptr<Container>, std::shared_ptr<Container>>>;
+	[[nodiscard]] const ManagedContainerMap &getManagedContainers() const {
+		return m_managedContainers;
+	}
 
 private:
 	friend class PlayerLock;
@@ -1614,7 +1619,7 @@ private:
 
 	std::map<uint64_t, std::shared_ptr<Reward>> rewardMap;
 
-	std::map<ObjectCategory_t, std::pair<std::shared_ptr<Container>, std::shared_ptr<Container>>> m_managedContainers;
+	ManagedContainerMap m_managedContainers;
 	std::vector<ForgeHistory> forgeHistoryVector;
 
 	std::vector<uint16_t> quickLootListItemIds;
