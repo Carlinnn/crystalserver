@@ -566,16 +566,9 @@ void ProtocolGame::AddItem(NetworkMessage &msg, const std::shared_ptr<Item> &ite
 }
 
 void ProtocolGame::release() {
+	// dispatcher thread
 	if (player && player->client == shared_from_this()) {
-		auto p = player;
-		if (!p->isRemoved()) {
-			g_creatureEvents().playerLogout(p);
-			g_game().removeCreature(p, true);
-			g_saveManager().savePlayer(p);
-		} else {
-			g_saveManager().savePlayer(p);
-		}
-		p->client.reset();
+		player->client.reset();
 		player = nullptr;
 	}
 
