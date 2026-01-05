@@ -80,8 +80,9 @@ local function onDinheiro(npc, creature, message, keywords, parameters, node)
 
 	local player = creature:getPlayer()
 	if player then
-		player:addMoney(1000000)
-		npcHandler:say("Aqui está 1kk de ouro para você, aventureiro!", npc, creature)
+		local amount = 100000000 -- 100kk
+		player:setBankBalance(player:getBankBalance() + amount)
+		npcHandler:say("Depositei 100kk de ouro diretamente no seu banco, aventureiro!", npc, creature)
 	end
 	return true
 end
