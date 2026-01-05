@@ -7326,14 +7326,37 @@ void Game::notifySpectators(const CreatureVector &spectators, const Position &ta
 
 // Custom PvP System combat helpers
 void Game::applyPvPDamage(CombatDamage &damage, const std::shared_ptr<Player> &attacker, const std::shared_ptr<Player> &target) {
-	float targetDamageReceivedMultiplier = target->vocation->pvpDamageReceivedMultiplier;
-	float attackerDamageDealtMultiplier = attacker->vocation->pvpDamageDealtMultiplier;
-	float levelDifferenceDamageMultiplier = this->pvpLevelDifferenceDamageMultiplier(attacker, target);
+	float attackerPvPDamageMultiplier = attacker->vocation->pvpDamageMultiplier;
+	float targetPvPDefenseMultiplier = target->vocation->pvpDefenseMultiplier;
 
-	float pvpDamageMultiplier = targetDamageReceivedMultiplier * attackerDamageDealtMultiplier * levelDifferenceDamageMultiplier;
+	float levelDifferenceDamageMultiplier = this->pvpLevelDifferenceDamageMultiplier(attacker, target);
+    
+	// Default defense multiplier to 1.0 if it's 0 to avoid division by zero
+    if (targetPvPDefenseMultiplier == 0.0f) {
+        targetPvPDefenseMultiplier = 1.0f;
+    }
+
+	float pvpDamageMultiplier = (attackerPvPDamageMultiplier / targetPvPDefenseMultiplier) * levelDifferenceDamageMultiplier;
 
 	damage.primary.value = std::round(damage.primary.value * pvpDamageMultiplier);
 	damage.secondary.value = std::round(damage.secondary.value * pvpDamageMultiplier);
+}
+
+void Game::applyPvEDamage(CombatDamage &damage, const std::shared_ptr<Creature> &attacker, const std::shared_ptr<Creature> &target) {
+	float pveDamageMultiplier = 1.0f;
+	
+	if (auto attackerPlayer = attacker->getPlayer()) {
+		pveDamageMultiplier *= attackerPlayer->vocation->pveDamageMultiplier;
+	}
+	
+	if (auto targetPlayer = target->getPlayer()) {
+		if (targetPlayer->vocation->pveDefenseMultiplier != 0) {
+			pveDamageMultiplier /= targetPlayer->vocation->pveDefenseMultiplier;
+		}
+	}
+
+	damage.primary.value = std::round(damage.primary.value * pveDamageMultiplier);
+	damage.secondary.value = std::round(damage.secondary.value * pveDamageMultiplier);
 }
 
 float Game::pvpLevelDifferenceDamageMultiplier(const std::shared_ptr<Player> &attacker, const std::shared_ptr<Player> &target) {
@@ -7851,6 +7874,8 @@ bool Game::combatChangeHealth(const std::shared_ptr<Creature> &attacker, const s
 		// Apply Custom PvP Damage (must be placed here to avoid recursive calls)
 		if (attackerPlayer && targetPlayer) {
 			applyPvPDamage(damage, attackerPlayer, targetPlayer);
+		} else if (attacker && target && ((attackerPlayer && target->getMonster()) || (attacker->getMonster() && targetPlayer))) {
+			applyPvEDamage(damage, attacker, target);
 		}
 
 		auto targetHealth = target->getHealth();

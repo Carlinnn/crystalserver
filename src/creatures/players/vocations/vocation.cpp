@@ -192,16 +192,9 @@ bool Vocations::loadFromXml() {
 					voc->armorMultiplier = pugi::cast<float>(armorAttribute.value());
 				}
 			} else if (strcasecmp(childNode.name(), "pvp") == 0) {
-				pugi::xml_attribute pvpDamageReceivedMultiplier = childNode.attribute("damageReceivedMultiplier");
-				if (pvpDamageReceivedMultiplier) {
-					voc->pvpDamageReceivedMultiplier = pugi::cast<float>(pvpDamageReceivedMultiplier.value());
-				}
-
-				pugi::xml_attribute pvpDamageDealtMultiplier = childNode.attribute("damageDealtMultiplier");
-				if (pvpDamageDealtMultiplier) {
-					voc->pvpDamageDealtMultiplier = pugi::cast<float>(pvpDamageDealtMultiplier.value());
-				}
-			} else if (strcasecmp(childNode.name(), "gem") == 0) {
+				// Old PvP multipliers are deprecated and replaced by damage.xml
+                continue;
+            } else if (strcasecmp(childNode.name(), "gem") == 0) {
 				pugi::xml_attribute qualityAttr = childNode.attribute("quality");
 				pugi::xml_attribute nameAttr = childNode.attribute("name");
 				auto quality = pugi::cast<uint8_t>(qualityAttr.value());
@@ -308,6 +301,71 @@ bool Vocations::loadFromXml() {
 			}
 		}
 	}
+	
+	pugi::xml_document damageDoc;
+	auto damageFolder = g_configManager().getString(CORE_DIRECTORY) + "/XML/damage.xml";
+	pugi::xml_parse_result damageResult = damageDoc.load_file(damageFolder.c_str());
+	if (!damageResult) {
+		printXMLError(__FUNCTION__, damageFolder, damageResult);
+	} else {
+		for (const auto &damageNode : damageDoc.child("damage_multipliers").children()) {
+			bool isPvp;
+			if (strcasecmp(damageNode.name(), "PVP") == 0) {
+				isPvp = true;
+			} else if (strcasecmp(damageNode.name(), "PVE") == 0) {
+				isPvp = false;
+			} else {
+			    continue;
+			}
+
+			for (const auto &typeNode : damageNode.children()) {
+				bool isDamage;
+				if (strcasecmp(typeNode.name(), "DAMAGE") == 0) {
+					isDamage = true;
+				} else if (strcasecmp(typeNode.name(), "DEFENSE") == 0) {
+					isDamage = false;
+				} else {
+					continue;
+				}
+
+				for (const auto &vocationNode : typeNode.children()) {
+					std::string vocationName = vocationNode.name();
+					uint16_t vocationId = getVocationId(vocationName);
+					if (vocationId == VOCATION_NONE) {
+						g_logger().warn("[Vocations::loadFromXml] - Vocation {} not found in damage.xml", vocationName);
+						continue;
+					}
+
+					auto vocation = getVocation(vocationId);
+					if (!vocation) {
+						continue;
+					}
+
+					float multiplier = pugi::cast<float>(vocationNode.child_value());
+					
+					// Apply to the found vocation and any that inherit from it (promotions)
+					for (auto &[id, vocPtr] : vocationsMap) {
+						if (vocPtr->fromVocation == vocationId) {
+							if (isPvp) {
+								if (isDamage) {
+									vocPtr->pvpDamageMultiplier = multiplier;
+								} else {
+									vocPtr->pvpDefenseMultiplier = multiplier;
+								}
+							} else {
+								if (isDamage) {
+									vocPtr->pveDamageMultiplier = multiplier;
+								} else {
+									vocPtr->pveDefenseMultiplier = multiplier;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
 	return true;
 }
 

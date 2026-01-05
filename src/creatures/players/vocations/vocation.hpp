@@ -82,8 +82,10 @@ public:
 	float mitigationPrimaryShield = 1.0f;
 	float mitigationSecondaryShield = 1.0f;
 
-	float pvpDamageReceivedMultiplier = 1.0f;
-	float pvpDamageDealtMultiplier = 1.0f;
+	float pvpDamageMultiplier = 1.0f;
+	float pvpDefenseMultiplier = 1.0f;
+	float pveDamageMultiplier = 1.0f;
+	float pveDefenseMultiplier = 1.0f;
 
 	int16_t absorbPercent[COMBAT_COUNT] = { 0 };
 

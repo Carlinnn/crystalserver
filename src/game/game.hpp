@@ -519,6 +519,7 @@ public:
 
 	// Custom PvP System combat helpers
 	void applyPvPDamage(CombatDamage &damage, const std::shared_ptr<Player> &attacker, const std::shared_ptr<Player> &target);
+	void applyPvEDamage(CombatDamage &damage, const std::shared_ptr<Creature> &attacker, const std::shared_ptr<Creature> &target);
 	float pvpLevelDifferenceDamageMultiplier(const std::shared_ptr<Player> &attacker, const std::shared_ptr<Player> &target);
 
 	// Wheel of destiny combat helpers

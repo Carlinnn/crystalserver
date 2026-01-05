@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<damage_multipliers>
+    <PVP>
+        <DAMAGE>
+            <KNIGHT>1.1</KNIGHT>
+            <SORCERER>1.0</SORCERER>
+            <DRUID>1.0</DRUID>
+            <PALADIN>1.0</PALADIN>
+            <MONK>0.5</MONK>
+        </DAMAGE>
+        <DEFENSE>
+            <KNIGHT>1.0</KNIGHT>
+            <SORCERER>1.0</SORCERER>
+            <DRUID>1.0</DRUID>
+            <PALADIN>1.0</PALADIN>
+            <MONK>1.0</MONK>
+        </DEFENSE>
+    </PVP>
+    <PVE>
+        <DAMAGE>
+            <KNIGHT>2.2</KNIGHT>
+            <SORCERER>2.0</SORCERER>
+            <DRUID>2.0</DRUID>
+            <PALADIN>2.0</PALADIN>
+            <MONK>1.0</MONK>
+        </DAMAGE>
+        <DEFENSE>
+            <KNIGHT>1.0</KNIGHT>
+            <SORCERER>0.9</SORCERER>
+            <DRUID>0.9</DRUID>
+            <PALADIN>1.0</PALADIN>
+            <MONK>1.0</MONK>
+        </DEFENSE>
+    </PVE>
+</damage_multipliers>
