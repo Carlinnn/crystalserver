@@ -50,6 +50,16 @@ npcType.onCloseChannel = function(npc, creature)
 	npcHandler:onCloseChannel(npc, creature)
 end
 
+npcType.onBuyItem = function(npc, player, itemId, subType, amount, ignore, inBackpacks, totalCost)
+	npc:sellItem(player, itemId, amount, subType, 0, ignore, inBackpacks)
+end
+
+npcType.onSellItem = function(npc, player, itemId, subtype, amount, ignore, name, totalCost)
+	player:sendTextMessage(MESSAGE_TRADE, string.format("Sold %ix %s for %i gold.", amount, name, totalCost))
+end
+
+npcType.onCheckItem = function(npc, player, clientId, subType) end
+
 npcConfig.shop = {
 	{ itemName = "bag you covet", clientId = 43895, buy = 1 }, -- Sanguine Bag
 	{ itemName = "primal bag", clientId = 39546, buy = 1 },    -- Gnomprona Bag
@@ -62,27 +72,39 @@ npcConfig.shop = {
 	{ itemName = "greater fragment", clientId = 46626, buy = 1 }
 }
 
-local function onDinheiro(npc, creature, type, message)
-	if not npcHandler:isFocused(creature) then
+local function onDinheiro(npc, creature, message, keywords, parameters, node)
+	local npcHandler = parameters.npcHandler
+	if not npcHandler:checkInteraction(npc, creature) then
 		return false
 	end
 
 	local player = creature:getPlayer()
 	if player then
 		player:addMoney(1000000)
-		npcHandler:say("Aqui está 1kk de ouro para você, aventureiro!", creature)
+		npcHandler:say("Aqui está 1kk de ouro para você, aventureiro!", npc, creature)
 	end
 	return true
 end
 
+local function onTrade(npc, creature, message, keywords, parameters, node)
+	local npcHandler = parameters.npcHandler
+	if not npcHandler:checkInteraction(npc, creature) then
+		return false
+	end
+
+	npcHandler:say("Com certeza, veja minhas ofertas de bags especiais!", npc, creature)
+	npc:openShopWindow(creature)
+	return true
+end
+
 keywordHandler:addKeyword({'dinheiro'}, onDinheiro, {npcHandler = npcHandler})
-keywordHandler:addKeyword({'trade'}, StdModule.say, {npcHandler = npcHandler, text = "Com certeza, veja minhas ofertas de bags especiais!"})
+keywordHandler:addKeyword({'trade'}, onTrade, {npcHandler = npcHandler})
+keywordHandler:addKeyword({'offers'}, onTrade, {npcHandler = npcHandler})
 
 npcHandler:setMessage(MESSAGE_GREET, "Olá, |PLAYERNAME|. Este é o NPC do Test Server. Se precisar de {dinheiro} ou quiser ver meu {trade}, é só pedir.")
 npcHandler:setMessage(MESSAGE_FAREWELL, "Até logo, |PLAYERNAME|.")
 npcHandler:setMessage(MESSAGE_WALKAWAY, "Até logo, |PLAYERNAME|.")
 
 npcHandler:addModule(FocusModule:new(), npcConfig.name, true, true, true)
-npcHandler:addModule(ShopModule:new(), npcConfig.name, true, true, true)
 
 npcType:register(npcConfig)
