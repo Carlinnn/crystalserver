@@ -7578,38 +7578,6 @@ bool Game::combatChangeHealth(const std::shared_ptr<Creature> &attacker, const s
 					message.text = ss.str();
 				} else if (tmpPlayer == targetPlayer) {
 					ss.str({});
-					if (!attacker) {
-						ss << "You were healed";
-					} else if (targetPlayer == attackerPlayer) {
-						ss << "You heal yourself";
-					} else {
-						ss << "You were healed by " << attacker->getNameDescription();
-					}
-					ss << " for " << damageString;
-					message.type = MESSAGE_HEALED;
-					message.text = ss.str();
-				} else {
-					if (spectatorMessage.empty()) {
-						ss.str({});
-						if (!attacker) {
-							ss << ucfirst(target->getNameDescription()) << " was healed";
-						} else {
-							ss << ucfirst(attacker->getNameDescription()) << " healed ";
-							if (attacker == target) {
-								ss << (targetPlayer ? targetPlayer->getReflexivePronoun() : "itself");
-							} else {
-								ss << target->getNameDescription();
-							}
-						}
-						ss << " for " << damageString;
-						spectatorMessage = ss.str();
-					}
-					message.type = MESSAGE_HEALED_OTHERS;
-					message.text = spectatorMessage;
-				}
-				tmpPlayer->sendTextMessage(message);
-			}
-		}
 	} else {
 		if (!target->isAttackable()) {
 			if (!target->isInGhostMode()) {
@@ -7641,6 +7609,12 @@ bool Game::combatChangeHealth(const std::shared_ptr<Creature> &attacker, const s
 
 		damage.primary.value = std::abs(damage.primary.value);
 		damage.secondary.value = std::abs(damage.secondary.value);
+
+		if (attackerPlayer && targetPlayer) {
+			applyPvPDamage(damage, attackerPlayer, targetPlayer);
+		} else if (attacker && target && ((attackerPlayer && target->getMonster()) || (attacker->getMonster() && targetPlayer))) {
+			applyPvEDamage(damage, attacker, target);
+		}
 
 		std::shared_ptr<Monster> targetMonster;
 		if (target && target->getMonster()) {
@@ -7703,13 +7677,7 @@ bool Game::combatChangeHealth(const std::shared_ptr<Creature> &attacker, const s
 			damage.primary.value *= target->getBuff(BUFF_DAMAGERECEIVED) / 100.;
 			damage.secondary.value *= target->getBuff(BUFF_DAMAGERECEIVED) / 100.;
 		}
-		if (damage.origin != ORIGIN_NONE) {
-			if (attackerPlayer && targetPlayer) {
-				applyPvPDamage(damage, attackerPlayer, targetPlayer);
-			} else if (attacker && target && ((attackerPlayer && target->getMonster()) || (attacker->getMonster() && targetPlayer))) {
-				applyPvEDamage(damage, attacker, target);
-			}
-		}
+
 
 		auto healthChange = damage.primary.value + damage.secondary.value;
 		if (healthChange == 0) {
