@@ -7703,6 +7703,14 @@ bool Game::combatChangeHealth(const std::shared_ptr<Creature> &attacker, const s
 			damage.primary.value *= target->getBuff(BUFF_DAMAGERECEIVED) / 100.;
 			damage.secondary.value *= target->getBuff(BUFF_DAMAGERECEIVED) / 100.;
 		}
+		if (damage.origin != ORIGIN_NONE) {
+			if (attackerPlayer && targetPlayer) {
+				applyPvPDamage(damage, attackerPlayer, targetPlayer);
+			} else if (attacker && target && ((attackerPlayer && target->getMonster()) || (attacker->getMonster() && targetPlayer))) {
+				applyPvEDamage(damage, attacker, target);
+			}
+		}
+
 		auto healthChange = damage.primary.value + damage.secondary.value;
 		if (healthChange == 0) {
 			return true;
@@ -7871,12 +7879,7 @@ bool Game::combatChangeHealth(const std::shared_ptr<Creature> &attacker, const s
 			return true;
 		}
 
-		// Apply Custom PvP Damage (must be placed here to avoid recursive calls)
-		if (attackerPlayer && targetPlayer) {
-			applyPvPDamage(damage, attackerPlayer, targetPlayer);
-		} else if (attacker && target && ((attackerPlayer && target->getMonster()) || (attacker->getMonster() && targetPlayer))) {
-			applyPvEDamage(damage, attacker, target);
-		}
+
 
 		auto targetHealth = target->getHealth();
 		realDamage = std::min<int32_t>(targetHealth, damage.primary.value + damage.secondary.value);
