@@ -340,12 +340,11 @@ bool Vocations::loadFromXml() {
 					if (!vocation) {
 						continue;
 					}
-
 					float multiplier = pugi::cast<float>(vocationNode.child_value());
 					
 					// Apply to the found vocation and any that inherit from it (promotions)
 					for (auto &[id, vocPtr] : vocationsMap) {
-						if (vocPtr->fromVocation == vocationId) {
+						if (vocPtr->fromVocation == vocationId || id == vocationId) {
 							if (isPvp) {
 								if (isDamage) {
 									vocPtr->pvpDamageMultiplier = multiplier;
