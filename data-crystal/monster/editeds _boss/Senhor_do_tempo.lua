@@ -3,6 +3,7 @@ local monster = {}
 
 monster.description = "Senhor do tempo"
 monster.experience = 0
+
 monster.outfit = {
 	lookType = 423,
 	lookHead = 0,
@@ -63,16 +64,14 @@ monster.summon = {
 	maxSummons = 1,
 	summons = {
 		{ name = "Demon", chance = 90, interval = 2000, count = 11 },
-			{ name = "Supreme Cyclops", chance = 80, interval = 2000, count = 10 },
-				{ name = "orshabaal", chance = 5, interval = 2000, count = 1 },
-					{ name = "Morgaroth", chance = 1, interval = 2000, count = 1 },
-						{ name = "Warlock", chance = 100, interval = 100, count = 15 },
-						{ name = "Sword Of Vengeance", chance = 90, interval = 2000, count = 7 },
-						{ name = "SNightmare Tendril", chance = 50, interval = 2000, count = 2 },
-
-						
+		{ name = "Supreme Cyclops", chance = 80, interval = 2000, count = 10 },
+		{ name = "Orshabaal", chance = 5, interval = 2000, count = 1 },
+		{ name = "Morgaroth", chance = 1, interval = 2000, count = 1 },
+		{ name = "Warlock", chance = 100, interval = 100, count = 15 },
+		{ name = "Sword Of Vengeance", chance = 90, interval = 2000, count = 7 },
+		{ name = "SNightmare Tendril", chance = 50, interval = 2000, count = 2 },
 	},
-	},
+}
 
 monster.voices = {
 	interval = 5000,
@@ -92,7 +91,7 @@ monster.attacks = {
 	{ name = "thunderstorm rune", interval = 2000, chance = 60, minDamage = 1500, maxDamage = 3230, range = 10, target = true },
 	{ name = "combat", interval = 400, chance = 70, type = COMBAT_MANADRAIN, minDamage = 1000, maxDamage = 5210, range = 9, target = true },
 	{ name = "combat", interval = 2000, chance = 25, type = COMBAT_ENERGYDAMAGE, minDamage = 4200, maxDamage = 6300, length = 10, spread = 9, effect = CONST_ME_BIGCLOUDS, target = true },
-		{ name = "warlock skill reducer", interval = 2000, chance = 5, range = 5, target = false },
+	{ name = "warlock skill reducer", interval = 2000, chance = 5, range = 5, target = false },
 	{ name = "combat", interval = 2000, chance = 10, type = COMBAT_MANADRAIN, minDamage = 0, maxDamage = -120, range = 7, target = false },
 	{ name = "combat", interval = 2000, chance = 20, type = COMBAT_FIREDAMAGE, minDamage = -50, maxDamage = -180, range = 7, radius = 3, shootEffect = CONST_ANI_BURSTARROW, effect = CONST_ME_FIREAREA, target = true },
 	{ name = "firefield", interval = 2000, chance = 10, range = 7, radius = 2, shootEffect = CONST_ANI_FIRE, target = true },
@@ -104,10 +103,8 @@ monster.attacks = {
 monster.defenses = {
 	defense = 99,
 	armor = 1200,
-	--	mitigation = ???,
 	{ name = "combat", interval = 1200, chance = 70, type = COMBAT_HEALING, minDamage = 1550, maxDamage = 10000, effect = CONST_ME_MAGIC_BLUE, target = false },
 	{ name = "invisible", interval = 1000, chance = 60, effect = CONST_ME_MAGIC_BLUE },
-
 }
 
 monster.elements = {
