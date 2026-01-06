@@ -88,8 +88,9 @@ monster.attacks = {
 
 	-- Dano direto
 	{ name = "combat", interval = 2000, chance = 25,
-		type = COMBAT_ENERGYDAMAGE, minDamage = 4200, maxDamage = 6300,
-		length = 10, spread = 3, effect = CONST_ME_BIGCLOUDS, target = true },
+	type = COMBAT_ENERGYDAMAGE, minDamage = 4200, maxDamage = 6300,
+	effect = CONST_ME_BIGCLOUDS, target = true }  -- sem length/spread
+
 
 	{ name = "combat", interval = 2000, chance = 20,
 		type = COMBAT_FIREDAMAGE, minDamage = 500, maxDamage = 1800,
@@ -97,7 +98,7 @@ monster.attacks = {
 
 	-- Reduz velocidade do jogador
 	{ name = "speed", interval = 500, chance = 90,
-		speedChange = -100000, duration = 5000, effect = CONST_ME_MAGIC_RED, target = false },
+		speedChange = -10000, duration = 5000, effect = CONST_ME_MAGIC_RED, target = false },
 
 	-- Stun / Drunk
 	{ name = "drunk", interval = 1000, chance = 70,
