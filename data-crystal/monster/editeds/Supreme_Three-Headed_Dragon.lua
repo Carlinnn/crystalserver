@@ -68,8 +68,8 @@ monster.light = {
 }
 
 monster.voices = {
-	interval = 100,
-	chance = 100,
+	interval = 3000,
+	chance = 800,
 	{ text = "O fogo é meu sopro. O medo é minha sombra.", yell = true },
 	{ text = "Nasci do fogo, e o mundo lembrará do meu rugido", yell = true },
 	{ text = "Ajoelhe-se ou queime sob minhas asas", yell = true },

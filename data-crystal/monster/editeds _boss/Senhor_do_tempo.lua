@@ -10,8 +10,8 @@ monster.outfit = {
 
 monster.events = {}
 
-monster.health = 80500
-monster.maxHealth = 80500
+monster.health = 150500
+monster.maxHealth = 150500
 monster.race = "blood"
 monster.corpse = 0
 monster.speed = 100000
@@ -55,9 +55,9 @@ monster.light = {
 }
 
 monster.summon = {
-    maxSummons = 2,
+    maxSummons = 10,
     summons = {
-        { name = "Fdp", chance = 100, interval = 500, count = 4 },
+        { name = "Fdp", chance = 100, interval = 500, count = 3 },
     }
 }
 
