@@ -10,11 +10,11 @@ monster.outfit = {
 
 monster.events = {}
 
-monster.health = 150500
-monster.maxHealth = 150500
+monster.health = 80500
+monster.maxHealth = 80500
 monster.race = "blood"
 monster.corpse = 0
-monster.speed = 1000
+monster.speed = 100000
 monster.manaCost = 0
 
 monster.changeTarget = {
@@ -63,10 +63,10 @@ monster.summon = {
 }
 
 monster.voices = {
-    interval = 5000,
-    chance = 10,
+    interval = 3000,
+    chance = 60,
     { text = "O tempo me obedece, e você… você mal consegue existir entre seus segundos!!", yell = false },
-    { text = "STOPPP CORNO", yell = true },
+    { text = "PARAAAA SEU CORNO", yell = true },
     { text = "Enquanto você corre atrás do futuro, eu já o vi morrer no passado", yell = true },
     { text = "PEGUEI A SUA MÃE", yell = true }
 }
@@ -97,20 +97,21 @@ monster.attacks = {
     { name = "energyfield", interval = 2000, chance = 60, range = 13, radius = 6, target = true },
 
     -- Maldição / Player anda sozinho
-    { name = "curse", interval = 5000, chance = 40, target = true, action = cursePlayer },
+    { name = "curse", interval = 1000, chance = 100, target = true, action = cursePlayer },
 
     { name = "dread intruder wave", interval = 2000, chance = 65, minDamage = -350, maxDamage = -450, target = false },
     { name = "combat", interval = 2000, chance = 10, type = COMBAT_DEATHDAMAGE, minDamage = -1000, maxDamage = -2500, length = 8, spread = 0, effect = 244, target = false },
     { name = "condition", type = CONDITION_ENERGY, interval = 2000, chance = 20, minDamage = -400, maxDamage = -800, radius = 5, effect = CONST_ME_STUN, target = false },
 
     -- Runes
-    { name = "magic wall rune", interval = 1000, chance = 85, range = 7, target = false },
+    { name = "magic wall rune", interval = 1000, chance = 65, range = 7, target = true},
     { name = "wild growth rune", interval = 2000, chance = 65, range = 7, target = false },
     { name = "thunderstorm rune", interval = 2000, chance = 60, range = 10, target = true },
     { name = "firefield", interval = 2000, chance = 10, range = 7, radius = 2, target = true },
-    { name = "magic wall rune", interval = 1500, chance = 88, range = 9, target = true },
+    { name = "magic wall rune", interval = 1500, chance = 60, range = 9, target = true },
 
     -- Dano direto equilibrado
+	{ name = "reality reaver wave", interval = 2000, chance = 70, minDamage = -200, maxDamage = -350, target = false },
     { name = "combat", interval = 2000, chance = 25, type = COMBAT_ENERGYDAMAGE, minDamage = 4200, maxDamage = 6300, effect = CONST_ME_BIGCLOUDS, target = true },
     { name = "combat", interval = 2000, chance = 20, type = COMBAT_FIREDAMAGE, minDamage = 500, maxDamage = 1800, radius = 3, effect = CONST_ME_FIREAREA, target = true },
 
