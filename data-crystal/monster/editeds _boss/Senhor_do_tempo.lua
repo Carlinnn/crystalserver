@@ -88,9 +88,8 @@ monster.attacks = {
 
 	-- Dano direto
 	{ name = "combat", interval = 2000, chance = 25,
-	type = COMBAT_ENERGYDAMAGE, minDamage = 4200, maxDamage = 6300,
-	effect = CONST_ME_BIGCLOUDS, target = true }  -- sem length/spread
-
+		type = COMBAT_ENERGYDAMAGE, minDamage = 4200, maxDamage = 6300,
+		effect = CONST_ME_BIGCLOUDS, target = true },  -- ✅ vírgula adicionada
 
 	{ name = "combat", interval = 2000, chance = 20,
 		type = COMBAT_FIREDAMAGE, minDamage = 500, maxDamage = 1800,
@@ -104,7 +103,6 @@ monster.attacks = {
 	{ name = "drunk", interval = 1000, chance = 70,
 		effect = CONST_ME_STUN, target = false, duration = 3000 }
 }
-
 
 monster.defenses = {
 	defense = 99,
