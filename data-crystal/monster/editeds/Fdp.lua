@@ -56,7 +56,7 @@ monster.flags = {
 	canPushItems = true,
 	canPushCreatures = true,
 	staticAttackChance = 15,
-	targetDistance = 1, -- fica na frente do player
+	targetDistance = 1,
 	runHealth = 115,
 	healthHidden = false,
 	isBlockable = false,
@@ -82,43 +82,11 @@ monster.loot = {
 	{ name = "moon backpack", chance = 220 },
 }
 
--- Função custom para fazer o monstro correr atrás do player
-local function chasePlayer(monster)
-	local target = monster:getTarget()
-	if target and target:isPlayer() then
-		-- mover na direção do player mantendo 1 tile de distância
-		local monsterPos = monster:getPosition()
-		local targetPos = target:getPosition()
-		local dx = targetPos.x - monsterPos.x
-		local dy = targetPos.y - monsterPos.y
-
-		-- ajusta para ficar 1 tile na frente
-		local moveX = 0
-		local moveY = 0
-		if dx ~= 0 then moveX = dx / math.abs(dx) end
-		if dy ~= 0 then moveY = dy / math.abs(dy) end
-
-		monster:moveTo({x = monsterPos.x + moveX, y = monsterPos.y + moveY, z = monsterPos.z})
-	end
-end
-
--- Adiciona a função de “AI” no think
-monster.onThink = function(monster, interval)
-	chasePlayer(monster)
-end
-
 monster.attacks = {
 	{ name = "melee", interval = 2000, chance = 100, minDamage = 10, maxDamage = 1 },
 	{ name = "combat", interval = 2000, chance = 100, type = COMBAT_LIFEDRAIN, minDamage = -3, maxDamage = -10, range = 1, effect = CONST_ME_MAGIC_RED, target = true },
 	{ name = "drunk", interval = 500, chance = 100, shootEffect = CONST_ANI_WHIRLWINDCLUB, effect = CONST_ME_STUN, target = false, duration = 4000 },
 	{ name = "wild growth rune", interval = 1000, chance = 70, range = 10, target = false },
-}
-
-monster.summon = {
-	maxSummons = 6,
-	summons = {
-		{ name = "Fdp", chance = 100, interval = 1000, count = 6 },
-	}
 }
 
 monster.defenses = {
@@ -149,5 +117,44 @@ monster.immunities = {
 	{ type = "invisible", condition = false },
 	{ type = "bleed", condition = false },
 }
+
+-- Função para perseguir o player
+local function pursuePlayer(monster)
+	local target = monster:getTarget()
+	if target and target:isPlayer() then
+		local mPos = monster:getPosition()
+		local tPos = target:getPosition()
+		local dx = tPos.x - mPos.x
+		local dy = tPos.y - mPos.y
+
+		local moveX, moveY = 0, 0
+		if dx ~= 0 then moveX = dx / math.abs(dx) end
+		if dy ~= 0 then moveY = dy / math.abs(dy) end
+
+		monster:moveTo({x = mPos.x + moveX, y = mPos.y + moveY, z = mPos.z})
+	end
+end
+
+-- Função para summon adicional de 6 FDP
+local function summonFdp(monster)
+	local count = 0
+	for _, creature in pairs(monster:getSummons()) do
+		if creature:getName():lower() == "fdp" then
+			count = count + 1
+		end
+	end
+
+	if count < 6 then
+		for i = 1, 6 - count do
+			monster:summonMonster("Fdp", monster:getPosition())
+		end
+	end
+end
+
+-- onThink chama perseguição e summon
+monster.onThink = function(monster, interval)
+	pursuePlayer(monster)
+	summonFdp(monster)
+end
 
 mType:register(monster)
