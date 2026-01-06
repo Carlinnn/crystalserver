@@ -37,8 +37,8 @@ monster.speed = 81000
 monster.manaCost = 0
 
 monster.changeTarget = {
-	interval = 60000,
-	chance = 0,
+	interval = 2000,
+	chance = 100,
 }
 
 monster.strategiesTarget = {
@@ -54,9 +54,9 @@ monster.flags = {
 	rewardBoss = false,
 	illusionable = true,
 	canPushItems = true,
-	canPushCreatures = false,
+	canPushCreatures = true,
 	staticAttackChance = 15,
-	targetDistance = 7,
+	targetDistance = 1, -- fica na frente do player
 	runHealth = 115,
 	healthHidden = false,
 	isBlockable = false,
@@ -82,6 +82,31 @@ monster.loot = {
 	{ name = "moon backpack", chance = 220 },
 }
 
+-- Função custom para fazer o monstro correr atrás do player
+local function chasePlayer(monster)
+	local target = monster:getTarget()
+	if target and target:isPlayer() then
+		-- mover na direção do player mantendo 1 tile de distância
+		local monsterPos = monster:getPosition()
+		local targetPos = target:getPosition()
+		local dx = targetPos.x - monsterPos.x
+		local dy = targetPos.y - monsterPos.y
+
+		-- ajusta para ficar 1 tile na frente
+		local moveX = 0
+		local moveY = 0
+		if dx ~= 0 then moveX = dx / math.abs(dx) end
+		if dy ~= 0 then moveY = dy / math.abs(dy) end
+
+		monster:moveTo({x = monsterPos.x + moveX, y = monsterPos.y + moveY, z = monsterPos.z})
+	end
+end
+
+-- Adiciona a função de “AI” no think
+monster.onThink = function(monster, interval)
+	chasePlayer(monster)
+end
+
 monster.attacks = {
 	{ name = "melee", interval = 2000, chance = 100, minDamage = 10, maxDamage = 1 },
 	{ name = "combat", interval = 2000, chance = 100, type = COMBAT_LIFEDRAIN, minDamage = -3, maxDamage = -10, range = 1, effect = CONST_ME_MAGIC_RED, target = true },
@@ -90,7 +115,7 @@ monster.attacks = {
 }
 
 monster.summon = {
-	maxSummons = 3,
+	maxSummons = 6,
 	summons = {
 		{ name = "Fdp", chance = 100, interval = 1000, count = 6 },
 	}
