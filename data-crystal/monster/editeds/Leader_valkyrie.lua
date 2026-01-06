@@ -4,8 +4,15 @@ local monster = {}
 monster.description = "a Leader valkyrie"
 monster.experience = 851
 monster.outfit = {
-	look type="139" head="77" body="114" legs="114" feet="96" addons="3" mount="426"
+    lookType = 139,
+    lookHead = 77,
+    lookBody = 114,
+    lookLegs = 114,
+    lookFeet = 96,
+    lookAddons = 3,
+    lookMount = 426
 }
+
 
 monster.raceId = 12
 monster.Bestiary = {
