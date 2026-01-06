@@ -32,7 +32,7 @@ monster.health = 5900
 monster.maxHealth = 5900
 monster.race = "blood"
 monster.corpse = 18242
-monster.speed = 88
+monster.speed = 8888
 monster.manaCost = 450
 
 monster.changeTarget = {
@@ -79,28 +79,28 @@ monster.voices = {
 	{ text = "One more head for me!", yell = false },
 }
 
-monster.loot = {
-	{ id = 3031, chance = 377, minCount = 0, maxCount = 136}, -- gold coin
-	{ id = 3277, chance = 366, minCount = 0, maxCount = 3}, -- spear
-	{ id = 3602, chance = 224, minCount = 0, maxCount = 2}, -- brown bread
-	{ id = 3003, chance = 91}, -- rope
-	{ id = 3372, chance = 274}, -- brass legs
-	{ id = 3383, chance = 132}, -- dark armor
-	{ id = 3305, chance = 114}, -- battle hammer
-	{ id = 3384, chance = 471}, -- dark helmet
-	{ id = 3269, chance = 482}, -- halberd
-	{ id = 3357, chance = 174}, -- plate armor
-	{ id = 3351, chance = 196}, -- steel helmet
-	{ id = 3265, chance = 241}, -- two handed sword
-	{ id = 3318, chance = 212}, -- knight axe
-	{ id = 3369, chance = 406}, -- warrior helmet
-	{ id = 3371, chance = 209}, -- knight legs
-	{ id = 3016, chance = 156}, -- ruby necklace
-	{ id = 3370, chance = 233}, -- knight armor
-	{ id = 3302, chance = 16}, -- dragon lance
-	{ id = 822, chance = 75}, -- lightning legs
-	{ id = 2995, chance = 86}, -- piggy bank
-	{ id = 3079, chance = 10}, -- boots of haste
+monster.loot = {  
+	{ id = 3031, chance = 37700, minCount = 1, maxCount = 136}, -- gold coin  
+	{ id = 3277, chance = 36600, minCount = 1, maxCount = 3}, -- spear  
+	{ id = 3602, chance = 22400, minCount = 1, maxCount = 2}, -- brown bread  
+	{ id = 3003, chance = 9100}, -- rope  
+	{ id = 3372, chance = 27400}, -- brass legs  
+	{ id = 3383, chance = 13200}, -- dark armor  
+	{ id = 3305, chance = 11400}, -- battle hammer  
+	{ id = 3384, chance = 47100}, -- dark helmet  
+	{ id = 3269, chance = 48200}, -- halberd  
+	{ id = 3357, chance = 17400}, -- plate armor  
+	{ id = 3351, chance = 19600}, -- steel helmet  
+	{ id = 3265, chance = 24100}, -- two handed sword  
+	{ id = 3318, chance = 21200}, -- knight axe  
+	{ id = 3369, chance = 40600}, -- warrior helmet  
+	{ id = 3371, chance = 20900}, -- knight legs  
+	{ id = 3016, chance = 15600}, -- ruby necklace  
+	{ id = 3370, chance = 23300}, -- knight armor  
+	{ id = 3302, chance = 1600}, -- dragon lance  
+	{ id = 822, chance = 7500}, -- lightning legs  
+	{ id = 2995, chance = 8600}, -- piggy bank  
+	{ id = 3079, chance = 1000}, -- boots of haste  
 }
 
 monster.attacks = {  
