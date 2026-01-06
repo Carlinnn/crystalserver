@@ -57,7 +57,7 @@ monster.light = {
 monster.summon = {
 	maxSummons = 2,
 	summons = {
-		{ name = "Supreme Cyclops", chance = 100, interval = 1000, count = 10 },
+		{ name = "Supreme Cyclops", chance = 100, interval = 1000, count = 2 },
 		{ name = "Warlock", chance = 80, interval = 5000, count = 2 }
 	}
 }
@@ -74,8 +74,8 @@ monster.voices = {
 monster.loot = {}
 
 monster.attacks = {
-	-- Ataque corpo a corpo
-	{ name = "melee", interval = 1000, chance = 100, skill = 3022, attack = 7027 },
+	-- Ataque corpo a corpo ajustado (não 1 hit kill)
+	{ name = "melee", interval = 1000, chance = 100, skill = 150, attack = 1200 },
 
 	-- Energy field
 	{ name = "energyfield", interval = 2000, chance = 60, range = 13, radius = 6, target = true },
@@ -86,10 +86,10 @@ monster.attacks = {
 	{ name = "thunderstorm rune", interval = 2000, chance = 60, range = 10, target = true },
 	{ name = "firefield", interval = 2000, chance = 10, range = 7, radius = 2, target = true },
 
-	-- Dano direto
+	-- Dano direto equilibrado
 	{ name = "combat", interval = 2000, chance = 25,
 		type = COMBAT_ENERGYDAMAGE, minDamage = 4200, maxDamage = 6300,
-		effect = CONST_ME_BIGCLOUDS, target = true },  -- ✅ vírgula adicionada
+		effect = CONST_ME_BIGCLOUDS, target = true },
 
 	{ name = "combat", interval = 2000, chance = 20,
 		type = COMBAT_FIREDAMAGE, minDamage = 500, maxDamage = 1800,
