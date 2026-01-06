@@ -8,64 +8,59 @@ local positions = {
 }
 
 local bosses = {
-	"Adlerauge", "Annihilon", "Arthei", "Ashmunrah", "Atab", "Black Knight", "Boogey", "Boreth",
-	"Bragrumol", "Bullwark", "Chopper", "Custodian", "Dazed Leaf Golem", "Death Priest Shargon",
-	"Deep Terror", "Dipthrah", "Dirtbeard", "Diseased Bill", "Diseased Dan", "Diseased Fred",
-	"Doctor Perhaps", "Enusat The Onyx Wing", "Evil Mastermind", "Fleshslicer", "Gaffir",
-	"Glitterscale", "Glooth Fairy", "Golgordan", "Gorga", "Gralvalon", "Grand Canon Dominus",
-	"Grand Chaplain Gaunder", "Grand Commander Soeren", "Guard Captain Quaid", "Hellgorak",
-	"Heoni", "Inkwing", "Jailer", "Jaul", "Kroazur", "Latrivan", "Lersatio", "Lisa", "Mad Mage",
-	"Madareth", "Mahrdis", "Marziel", "Maw", "Mephiles", "Mindmasher", "Monstor", "Morguthis",
-	"Mozradek", "Obujos", "Omruc", "Preceptor Lazare", "Professor Maxxen", "Rahemos", "Rotspit",
-	"Shadowstalker", "Sir Leonard", "Sugar Daddy", "Sugar Mommy", "Tanjis", "Thalas",
+	"Annihilon", "Ashmunrah", "Black Knight", "Boogey", "Bragrumol", "Bullwark", "Custodian",
+	"Dazed Leaf Golem", "Death Priest Shargon", "Deep Terror", "Dipthrah", "Dirtbeard",
+	"Diseased Bill", "Diseased Dan", "Diseased Fred", "Doctor Perhaps", "Evil Mastermind",
+	"Fleshslicer", "Gaffir", "Glitterscale", "Glooth Fairy", "Golgordan", "Gorga", "Gralvalon",
+	"Grand Canon Dominus", "Grand Chaplain Gaunder", "Grand Commander Soeren", "Guard Captain Quaid",
+	"Hellgorak", "Heoni", "Jailer", "Jaul", "Kroazur", "Latrivan", "Lisa", "Mad Mage", "Madareth",
+	"Mahrdis", "Mephiles", "Monstor", "Morguthis", "Mozradek", "Obujos", "Omruc", "Preceptor Lazare",
+	"Professor Maxxen", "Rahemos", "Sugar Daddy", "Sugar Mommy", "Tanjis", "Thalas",
 	"Thawing Dragon Lord", "The Baron from Below", "The Count Of The Core", "The Duke Of The Depths",
 	"The Lord of the Lice", "The Ravager", "The Shatterer", "Twisterror", "Ushuriel",
 	"Vashresamun", "Xogixath", "Zugurosh"
 }
 
-local function spawnRaid(index)
-	local pos = positions[index]
-	if not pos then
+local function spawnNextBoss(index)
+	if index > #bosses then
+		Game.broadcastMessage("Todas as raids na sala de bosses foram finalizadas!", MESSAGE_EVENT_ADVANCE)
 		return
 	end
 
-	-- Divide bosses (77 total)
-	-- Index 1: 1-19 (19)
-	-- Index 2: 20-38 (19)
-	-- Index 3: 39-57 (19)
-	-- Index 4: 58-77 (20)
-	local startIdx = (index - 1) * 19 + 1
-	local endIdx = index * 19
-	if index == 4 then
-		endIdx = #bosses
+	local bossName = bosses[index]
+	-- Split 63 bosses: 16, 16, 16, 15
+	local positionIndex = 1
+	if index > 48 then
+		positionIndex = 4
+	elseif index > 32 then
+		positionIndex = 3
+	elseif index > 16 then
+		positionIndex = 2
 	end
 
-	for i = startIdx, endIdx do
-		local bossName = bosses[i]
-		if bossName then
-			Game.createMonster(bossName, pos, true, true)
-		end
+	local pos = positions[positionIndex]
+	if pos then
+		Game.createMonster(bossName, pos, true, true)
 	end
 
-	if index < 4 then
-		Game.broadcastMessage("Raid na posição " .. index .. " finalizada! Siga para a próxima raid!", MESSAGE_EVENT_ADVANCE)
-		addEvent(spawnRaid, 1000, index + 1)
-	else
-		Game.broadcastMessage("Todas as raids na sala de bosses foram finalizadas!", MESSAGE_EVENT_ADVANCE)
+	-- After spawning the last boss of a position, broadcast a transition message
+	-- Positions end at indices: 16, 32, 48
+	if index == 16 or index == 32 or index == 48 then
+		Game.broadcastMessage("Raid na posição " .. positionIndex .. " finalizada! Siga para a próxima raid!", MESSAGE_EVENT_ADVANCE)
 	end
+
+	addEvent(spawnNextBoss, 1000, index + 1)
 end
 
 function raidbane.onSay(player, words, param)
-	-- Check for god group (access 1 in groups.xml means some staff access, but group "god" is id 6)
-	-- TalkAction:groupType("god") handles this restriction during registration in modern TFS.
-	
 	logCommand(player, words, param)
 
-	player:sendTextMessage(MESSAGE_ADMINISTRATOR, "Comando /raidbane executado. A raid começará em 10 segundos.")
+	Game.broadcastMessage("A raid na sala de bosses começará em 10 segundos! Preparem-se!", MESSAGE_EVENT_ADVANCE)
+	player:sendTextMessage(MESSAGE_ADMINISTRATOR, "Comando /raidbane executado.")
 	
 	addEvent(function()
 		Game.broadcastMessage("A sala de bosses foi invadida!", MESSAGE_EVENT_ADVANCE)
-		spawnRaid(1)
+		spawnNextBoss(1)
 	end, 10000)
 
 	return true
