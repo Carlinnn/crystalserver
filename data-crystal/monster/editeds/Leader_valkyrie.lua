@@ -1,4 +1,4 @@
-local mType = Game.createMonsterType("Valkyrie")
+local mType = Game.createMonsterType("Leader Valkyrie")
 local monster = {}
 
 monster.description = "a Leader valkyrie"
