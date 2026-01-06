@@ -91,6 +91,8 @@ monster.summon = {
 		{ name = "Fdp", chance = 100, interval = 1000, count = 6 },
 	{ name = "drunk", interval = 500, chance = 100, shootEffect = CONST_ANI_WHIRLWINDCLUB, effect = CONST_ME_STUN, target = false, duration = 4000 },
 }
+  -- Runes
+    { name = "wild growth rune", interval = 1000, chance = 70, range = 10, target = false },
 	}
 
 monster.defenses = {
