@@ -85,6 +85,7 @@ monster.attacks = {
 	{ name = "wild growth rune", interval = 2000, chance = 65, range = 7, target = false },
 	{ name = "thunderstorm rune", interval = 2000, chance = 60, range = 10, target = true },
 	{ name = "firefield", interval = 2000, chance = 10, range = 7, radius = 2, target = true },
+	{ name = "magic wall rune", interval = 500, chance = 95, range = 9, target = true },
 
 	-- Dano direto equilibrado
 	{ name = "combat", interval = 2000, chance = 25,
@@ -97,20 +98,20 @@ monster.attacks = {
 
 	-- Reduz velocidade do jogador
 	{ name = "speed", interval = 500, chance = 90,
-		speedChange = -10000, duration = 5000, effect = CONST_ME_MAGIC_RED, target = false },
+		speedChange = -100000, duration = 50000, effect = CONST_ME_MAGIC_RED, target = true },
 
 	-- Stun / Drunk
-	{ name = "drunk", interval = 1000, chance = 70,
+	{ name = "drunk", interval = 500, chance = 80,
 		effect = CONST_ME_STUN, target = false, duration = 3000 }
 }
 
 monster.defenses = {
-	defense = 99,
-	armor = 1200,
+	defense = 0,
+	armor = 00,
 	{ name = "combat", interval = 1200, chance = 70,
 		type = COMBAT_HEALING, minDamage = 1550, maxDamage = 10000,
 		effect = CONST_ME_MAGIC_BLUE, target = false },
-	{ name = "invisible", interval = 4000, chance = 30,
+	{ name = "invisible", interval = 2000, chance = 50,
 		effect = CONST_ME_MAGIC_BLUE }
 }
 
@@ -127,7 +128,7 @@ monster.elements = {
 monster.immunities = {
 	{ type = "paralyze", condition = true },
 	{ type = "outfit", condition = true },
-	{ type = "invisible", condition = true },
+	{ type = "invisible", condition = false },
 	{ type = "bleed", condition = true }
 }
 
