@@ -28,7 +28,7 @@ local function spawnNextBoss(index)
 	end
 
 	local bossName = bosses[index]
-	-- Split 63 bosses: 16, 16, 16, 15
+	
 	local positionIndex = 1
 	if index > 48 then
 		positionIndex = 4
@@ -43,10 +43,10 @@ local function spawnNextBoss(index)
 		Game.createMonster(bossName, pos, true, true)
 	end
 
-	-- After spawning the last boss of a position, broadcast a transition message
-	-- Positions end at indices: 16, 32, 48
+	
+	
 	if index == 16 or index == 32 or index == 48 then
-		Game.broadcastMessage("Raid na posição " .. positionIndex .. " finalizada! Siga para a próxima raid!", MESSAGE_EVENT_ADVANCE)
+		Game.broadcastMessage("Raid no cômodo " .. positionIndex .. " finalizada! Siga para a próxima raid!", MESSAGE_EVENT_ADVANCE)
 	end
 
 	addEvent(spawnNextBoss, 1000, index + 1)
@@ -60,7 +60,8 @@ function raidbane.onSay(player, words, param)
 	
 	addEvent(function()
 		Game.broadcastMessage("A sala de bosses foi invadida!", MESSAGE_EVENT_ADVANCE)
-		spawnNextBoss(1)
+		
+		addEvent(spawnNextBoss, 1000, 1)
 	end, 10000)
 
 	return true
