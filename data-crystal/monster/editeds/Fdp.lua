@@ -26,7 +26,7 @@ monster.Bestiary = {
 	Locations = "All around Tiquanda and Feyrist. Several groups of Wisps can be found in and around \z
 		the forests north of Edron. West of Hardek. Inside the Cyclops Camp. North of the triple \z
 		Wyvern spawn outside Kazordoon. West of Ab'Dendriel. West of Venore Amazon Camp. \z
-		A few spawns around Venore, 2 spawn on the Formorgar Glacier, and on Krimhorn.",
+		A few spawns around Venore, 2 spawn on the Formorgar Glacier, and on Krimhorn."
 }
 
 monster.health = 11500
@@ -85,15 +85,16 @@ monster.loot = {
 monster.attacks = {
 	{ name = "melee", interval = 2000, chance = 100, minDamage = 10, maxDamage = 1 },
 	{ name = "combat", interval = 2000, chance = 100, type = COMBAT_LIFEDRAIN, minDamage = -3, maxDamage = -10, range = 1, effect = CONST_ME_MAGIC_RED, target = true },
+	{ name = "drunk", interval = 500, chance = 100, shootEffect = CONST_ANI_WHIRLWINDCLUB, effect = CONST_ME_STUN, target = false, duration = 4000 },
+	{ name = "wild growth rune", interval = 1000, chance = 70, range = 10, target = false },
+}
+
 monster.summon = {
 	maxSummons = 3,
 	summons = {
 		{ name = "Fdp", chance = 100, interval = 1000, count = 6 },
-	{ name = "drunk", interval = 500, chance = 100, shootEffect = CONST_ANI_WHIRLWINDCLUB, effect = CONST_ME_STUN, target = false, duration = 4000 },
-}
-  -- Runes
-    { name = "wild growth rune", interval = 1000, chance = 70, range = 10, target = false },
 	}
+}
 
 monster.defenses = {
 	defense = 10,
