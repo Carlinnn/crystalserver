@@ -62,8 +62,6 @@ monster.attacks = {
 	{ name = "sudden death rune", interval = 2000, chance = 35,
 		minDamage = 3500, maxDamage = 9000, range = 7, target = true },
 
-	{ name = "exori san", interval = 3000, chance = 40,
-		minDamage = 1800, maxDamage = 4500, target = false },
 }
 
 monster.defenses = {
