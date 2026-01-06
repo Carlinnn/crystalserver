@@ -21,47 +21,88 @@ local bosses = {
 	"Vashresamun", "Xogixath", "Zugurosh"
 }
 
+-- Batching definition: [comodoIndex] = {startIdx, endIdx}
+local batches = {
+	{1, 16},
+	{17, 32},
+	{33, 48},
+	{49, 63}
+}
+
+if not RaidBaneStore then
+	RaidBaneStore = {
+		aliveCount = 0,
+		currentComodo = 0,
+		isSpawning = false
+	}
+end
+
 local function spawnNextBoss(index)
 	if index > #bosses then
-		Game.broadcastMessage("Todas as raids na sala de bosses foram finalizadas!", MESSAGE_EVENT_ADVANCE)
 		return
 	end
 
+	local comodoConfig = batches[RaidBaneStore.currentComodo]
+	if not comodoConfig then return end
+
 	local bossName = bosses[index]
-	
-	local positionIndex = 1
-	if index > 48 then
-		positionIndex = 4
-	elseif index > 32 then
-		positionIndex = 3
-	elseif index > 16 then
-		positionIndex = 2
-	end
+	local pos = positions[RaidBaneStore.currentComodo]
 
-	local pos = positions[positionIndex]
 	if pos then
-		Game.createMonster(bossName, pos, true, true)
+		local monster = Game.createMonster(bossName, pos, true, true)
+		if monster then
+			RaidBaneStore.aliveCount = RaidBaneStore.aliveCount + 1
+			monster:registerEvent("RaidBaneDeath")
+		end
 	end
 
-	
-	
-	if index == 16 or index == 32 or index == 48 then
-		Game.broadcastMessage("Raid no cômodo " .. positionIndex .. " finalizada! Siga para a próxima raid!", MESSAGE_EVENT_ADVANCE)
+	if index < comodoConfig[2] then
+		addEvent(spawnNextBoss, 1000, index + 1)
+	else
+		RaidBaneStore.isSpawning = false
+		Game.broadcastMessage("Todos os bosses do cômodo " .. RaidBaneStore.currentComodo .. " foram spawnados! Derrote-os para abrir o próximo cômodo.", MESSAGE_EVENT_ADVANCE)
 	end
-
-	addEvent(spawnNextBoss, 1000, index + 1)
 end
+
+local function startComodo(comodoIndex)
+	RaidBaneStore.currentComodo = comodoIndex
+	RaidBaneStore.isSpawning = true
+	
+	local config = batches[comodoIndex]
+	spawnNextBoss(config[1])
+end
+
+local raidDeath = CreatureEvent("RaidBaneDeath")
+function raidDeath.onDeath(creature)
+	RaidBaneStore.aliveCount = math.max(0, RaidBaneStore.aliveCount - 1)
+	
+	if RaidBaneStore.aliveCount == 0 and not RaidBaneStore.isSpawning then
+		if RaidBaneStore.currentComodo < 4 then
+			Game.broadcastMessage("Raid no cômodo " .. RaidBaneStore.currentComodo .. " finalizada! Siga para o próximo cômodo!", MESSAGE_EVENT_ADVANCE)
+			addEvent(startComodo, 3000, RaidBaneStore.currentComodo + 1)
+		else
+			Game.broadcastMessage("Todas as raids na sala de bosses foram finalizadas! Parabéns!", MESSAGE_EVENT_ADVANCE)
+			RaidBaneStore.currentComodo = 0
+		end
+	end
+	return true
+end
+raidDeath:register()
 
 function raidbane.onSay(player, words, param)
 	logCommand(player, words, param)
+
+	-- Reset state
+	RaidBaneStore.aliveCount = 0
+	RaidBaneStore.currentComodo = 0
+	RaidBaneStore.isSpawning = false
 
 	Game.broadcastMessage("A raid na sala de bosses começará em 10 segundos! Preparem-se!", MESSAGE_EVENT_ADVANCE)
 	player:sendTextMessage(MESSAGE_ADMINISTRATOR, "Comando /raidbane executado.")
 	
 	addEvent(function()
 		Game.broadcastMessage("A sala de bosses foi invadida!", MESSAGE_EVENT_ADVANCE)
-		
-		addEvent(spawnNextBoss, 1000, 1)
+		addEvent(startComodo, 1000, 1)
 	end, 10000)
 
 	return true
