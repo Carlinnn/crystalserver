@@ -371,7 +371,7 @@ tasks.json
 config.lua
 client_assertions.txt
 .env
-data-global/world/world.otbm
+data-crystal/world/*
 
 # Extensions
 *.ini
@@ -396,3 +396,8 @@ database_backup
 
 # CLION
 cmake-build-*
+data-crystal/world/world.otbm
+data-crystal/world/world-zones.xml
+data-crystal/world/world-npc.xml
+data-crystal/world/world-monster.xml
+data-crystal/world/world-house.xml
