@@ -104,9 +104,6 @@ monster.attacks = {
 		effect = CONST_ME_STUN, target = false, duration = 3000 }
 }
 
-}
-
-}
 
 monster.defenses = {
 	defense = 99,
