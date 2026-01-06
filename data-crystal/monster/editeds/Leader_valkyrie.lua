@@ -2,7 +2,7 @@ local mType = Game.createMonsterType("Leader Valkyrie")
 local monster = {}
 
 monster.description = "a Leader valkyrie"
-monster.experience = 851
+monster.experience = 899
 monster.outfit = {
     lookType = 139,
     lookHead = 77,
@@ -18,11 +18,11 @@ monster.raceId = 12
 monster.Bestiary = {
 	class = "Human",
 	race = BESTY_RACE_HUMAN,
-	toKill = 500,
+	toKill = 5000,
 	FirstUnlock = 25,
 	SecondUnlock = 250,
-	CharmsPoints = 15,
-	Stars = 2,
+	CharmsPoints = 100,
+	Stars = 3,
 	Occurrence = 0,
 	Locations = "Amazon Camp (Venore), Amazon Camp (Carlin), Amazonia, \z
 		single respawn to the north west of Thais, Foreigner Quarter in Yalahar.",
@@ -55,8 +55,8 @@ monster.flags = {
 	canPushItems = true,
 	canPushCreatures = false,
 	staticAttackChance = 90,
-	targetDistance = 1,
-	runHealth = 10,
+	targetDistance = 3,
+	runHealth = 500,
 	healthHidden = false,
 	isBlockable = false,
 	canWalkOnEnergy = false,
@@ -65,7 +65,7 @@ monster.flags = {
 }
 
 monster.light = {
-	level = 0,
+	level = 10,
 	color = 0,
 }
 
@@ -105,14 +105,13 @@ monster.loot = {
 
 monster.attacks = {  
 	{ name = "melee", interval = 2000, chance = 100, minDamage = 0, maxDamage = -70 },  
-	{ name = "combat", interval = 2000, chance = 15, type = COMBAT_PHYSICALDAMAGE, minDamage = 0, maxDamage = -50, range = 5, shootEffect = CONST_ANI_SPEAR, target = false },  
-	{ name = "exori amp kor", interval = 2000, chance = 15 },  
+	{ name = "combat", interval = 2000, chance = 15, type = COMBAT_PHYSICALDAMAGE, minDamage = 300, maxDamage = -1550, range = 10, shootEffect = CONST_ANI_SPEAR, target = truese },  
 }
 
 monster.defenses = {
-	defense = 12,
-	armor = 12,
-	mitigation = 0.36,
+	defense = 152,
+	armor = 152,
+	mitigation = 0.86,
 }
 
 monster.elements = {
@@ -131,7 +130,7 @@ monster.elements = {
 monster.immunities = {
 	{ type = "paralyze", condition = false },
 	{ type = "outfit", condition = false },
-	{ type = "invisible", condition = false },
+	{ type = "invisible", condition = true },
 	{ type = "bleed", condition = false },
 }
 
