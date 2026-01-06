@@ -20,7 +20,7 @@ monster.speed = 1000
 monster.manaCost = 0
 
 monster.changeTarget = {
-	interval = 1000,
+	interval = 100,
 	chance = 100,
 }
 
@@ -51,7 +51,7 @@ monster.light = {
 }
 
 monster.attacks = {
-	{ name = "melee", interval = 1000, chance = 100, skill = 3022, attack = 7027 },
+	{ name = "melee", interval = 1000, chance = 100, skill = 322, attack = 7027 },
 
 	{ name = "energyfield", interval = 3000, chance = 60, range = 13, radius = 6, target = true },
 	{ name = "magic wall rune", interval = 3000, chance = 40, range = 7, target = true },
