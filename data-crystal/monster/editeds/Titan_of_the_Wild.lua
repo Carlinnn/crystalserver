@@ -84,7 +84,7 @@ monster.loot = {
 	{ name = "warrior helmet", chance = 580 },  
 	{ name = "steel boots", chance = 2540 },  
 	{ name = "golden legs", chance = 910 },  
-	{ name = "Magic plate legs", chance = 17000 },  
+	{ name = "Magic plate armor", chance = 17000 },  
 	{ id = 3606, chance = 9730, maxCount = 2 }, -- egg  
 	{ name = "platinum coin", chance = 89725, maxCount = 5 },  
 	{ name = "leather legs", chance = 27060 },  
