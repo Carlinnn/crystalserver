@@ -57,7 +57,7 @@ monster.light = {
 monster.summon = {
 	maxSummons = 2,
 	summons = {
-		{ name = "Supreme Cyclops", chance = 100, interval = 4000, count = 2 },
+		{ name = "Supreme Cyclops", chance = 100, interval = 1000, count = 10 },
 		{ name = "Warlock", chance = 80, interval = 5000, count = 2 }
 	}
 }
@@ -65,39 +65,45 @@ monster.summon = {
 monster.voices = {
 	interval = 5000,
 	chance = 10,
-	{ text = "Behold the all permeating powers I draw from this gate!!", yell = false },
-	{ text = "ENERGY!!", yell = true },
-	{ text = "I FEEL... OMNIPOTENCE!!", yell = true },
-	{ text = "NO ONE CAN DEFEAT ME!", yell = true }
+	{ text = "O tempo me obedece, e você… você mal consegue existir entre seus segundos!!", yell = false },
+	{ text = "STOPPP CORNO", yell = true },
+	{ text = "Enquanto você corre atrás do futuro, eu já o vi morrer no passado", yell = true },
+	{ text = "PEGUEI A SUA MÃE", yell = true }
 }
 
 monster.loot = {}
 
 monster.attacks = {
+	-- Ataque corpo a corpo
 	{ name = "melee", interval = 1000, chance = 100, skill = 3022, attack = 7027 },
 
-	{ name = "energyfield", interval = 2000, chance = 60, range = 13, radius = 8, target = true },
-	{ name = "magic wall rune", interval = 1000, chance = 90, range = 10, target = true },
-	{ name = "wild growth rune", interval = 1000, chance = 76, range = 9, target = true },
+	-- Energy field
+	{ name = "energyfield", interval = 2000, chance = 60, range = 13, radius = 6, target = true },
 
+	-- Runes
+	{ name = "magic wall rune", interval = 1000, chance = 85, range = 7, target = false },
+	{ name = "wild growth rune", interval = 2000, chance = 65, range = 7, target = false },
 	{ name = "thunderstorm rune", interval = 2000, chance = 60, range = 10, target = true },
-
-	{ name = "combat", interval = 2000, chance = 25,
-		type = COMBAT_ENERGYDAMAGE, minDamage = -4200, maxDamage = -6300,
-		length = 10, spread = 3, effect = CONST_ME_BIGCLOUDS, target = false },
-
-	{ name = "combat", interval = 2000, chance = 20,
-		type = COMBAT_FIREDAMAGE, minDamage = -50, maxDamage = -180,
-		radius = 3, effect = CONST_ME_FIREAREA, target = true },
-
 	{ name = "firefield", interval = 2000, chance = 10, range = 7, radius = 2, target = true },
 
-	{ name = "speed", interval = 1000, chance = 90,
-		speedChange = -80000, duration = 2000,
-		effect = CONST_ME_MAGIC_RED, target = false },
+	-- Dano direto
+	{ name = "combat", interval = 2000, chance = 25,
+		type = COMBAT_ENERGYDAMAGE, minDamage = 4200, maxDamage = 6300,
+		length = 10, spread = 3, effect = CONST_ME_BIGCLOUDS, target = true },
 
+	{ name = "combat", interval = 2000, chance = 20,
+		type = COMBAT_FIREDAMAGE, minDamage = 500, maxDamage = 1800,
+		radius = 3, effect = CONST_ME_FIREAREA, target = true },
+
+	-- Reduz velocidade do jogador
+	{ name = "speed", interval = 500, chance = 90,
+		speedChange = -100000, duration = 5000, effect = CONST_ME_MAGIC_RED, target = false },
+
+	-- Stun / Drunk
 	{ name = "drunk", interval = 1000, chance = 70,
-		effect = CONST_ME_STUN, target = false, duration = 2000 }
+		effect = CONST_ME_STUN, target = false, duration = 3000 }
+}
+
 }
 
 monster.defenses = {
