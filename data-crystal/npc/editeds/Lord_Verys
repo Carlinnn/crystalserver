@@ -1,0 +1,159 @@
+local internalNpcName = "Lord Varys"
+local npcType = Game.createNpcType(internalNpcName)
+local npcConfig = {}
+
+npcConfig.name = internalNpcName
+npcConfig.description = "the Master of Whispers"
+
+npcConfig.health = 100
+npcConfig.maxHealth = npcConfig.health
+
+npcConfig.walkInterval = 2500
+npcConfig.walkRadius = 7
+
+npcConfig.outfit = {
+	lookType = 57,
+}
+
+
+npcConfig.flags = {
+	floorchange = true,
+}
+
+local keywordHandler = KeywordHandler:new()
+local npcHandler = NpcHandler:new(keywordHandler)
+
+-- =========================
+-- CONTROLE DE NOITE
+-- =========================
+local function isNight()
+	local hour = tonumber(os.date("%H"))
+	return (hour >= 20 or hour < 6)
+end
+
+npcType.onThink = function(npc, interval)
+	if not isNight() then
+		npc:remove()
+		return
+	end
+	npcHandler:onThink(npc, interval)
+end
+
+npcType.onAppear = function(npc, creature)
+	if not isNight() then
+		npc:remove()
+		return
+	end
+	npcHandler:onAppear(npc, creature)
+end
+
+npcType.onDisappear = function(npc, creature)
+	npcHandler:onDisappear(npc, creature)
+end
+
+npcType.onMove = function(npc, creature, fromPosition, toPosition)
+	npcHandler:onMove(npc, creature, fromPosition, toPosition)
+end
+
+npcType.onSay = function(npc, creature, type, message)
+	npcHandler:onSay(npc, creature, type, message)
+end
+
+npcType.onCloseChannel = function(npc, creature)
+	npcHandler:onCloseChannel(npc, creature)
+end
+
+npcHandler:setMessage(MESSAGE_GREET, "Shhh... nem todos devem me ver, |PLAYERNAME|.")
+npcHandler:setMessage(MESSAGE_FAREWELL, "O silêncio guarda mais verdades do que o barulho.")
+npcHandler:setMessage(MESSAGE_WALKAWAY, "A noite ainda tem muito a dizer...")
+
+npcHandler:addModule(FocusModule:new(), npcConfig.name, true, true, true)
+
+-- =========================
+-- CONFIGS DE LORE
+-- =========================
+local SECRET_WORD = "whisper"
+local STORAGE_VARYS = 90100
+local STORAGE_REI_CAIDO = 90101
+
+-- =========================
+-- PISTAS ALEATÓRIAS
+-- =========================
+local randomHints = {
+	"Nem todas as paredes são sólidas. Algumas apenas fingem ser.",
+	"O verdadeiro teste começa quando você acha que já venceu.",
+	"A lua observa mais do que imagina.",
+	"Há portas que só se abrem quando ninguém está olhando.",
+	"Nem todo tesouro brilha."
+}
+
+-- =========================
+-- FUNÇÃO DE RESPOSTA
+-- =========================
+local function respond(player, npc, text)
+	npcHandler:say(text, npc, player)
+end
+
+-- =========================
+-- PALAVRA SECRETA
+-- =========================
+keywordHandler:addKeyword({SECRET_WORD}, function(player, npc)
+	if player:getStorageValue(STORAGE_VARYS) < 1 then
+		player:setStorageValue(STORAGE_VARYS, 1)
+		respond(player, npc, "Então você conhece o sussurro... agora posso falar.")
+	else
+		respond(player, npc, "Já nos entendemos. Ouça com atenção.")
+	end
+end)
+
+-- =========================
+-- QUEST / SEGREDOS
+-- =========================
+keywordHandler:addKeyword({"quest", "segredo", "segredos"}, function(player, npc)
+	if player:getStorageValue(STORAGE_VARYS) < 1 then
+		respond(player, npc, "Palavras vazias não abrem bocas seladas.")
+		return
+	end
+
+	local level = player:getLevel()
+
+	if level < 50 then
+		respond(player, npc, "Você ainda escuta pouco. Volte quando o mundo pesar mais sobre seus ombros.")
+	elseif level < 150 then
+		respond(player, npc, randomHints[math.random(#randomHints)])
+	else
+		respond(player, npc, "Os antigos caminhos despertam. Busque onde reis caíram e ninguém ousa entrar.")
+	end
+end)
+
+-- =========================
+-- BOSSES
+-- =========================
+keywordHandler:addKeyword({"boss", "bosses"}, function(player, npc)
+	if player:getLevel() < 100 then
+		respond(player, npc, "Alguns nomes não devem ser pronunciados por iniciantes.")
+		return
+	end
+
+	respond(player, npc, "O Senhor das Chamas surge apenas sob lua cheia. A pressa é a sentença.")
+end)
+
+-- =========================
+-- EVENTOS
+-- =========================
+keywordHandler:addKeyword({"event", "eventos"}, function(player, npc)
+	respond(player, npc, "O mundo se move em ciclos. Os atentos percebem antes dos outros.")
+end)
+
+-- =========================
+-- DESAFIO DO REI CAÍDO (STORAGE)
+-- =========================
+keywordHandler:addKeyword({"rei", "caido", "desafio"}, function(player, npc)
+	if player:getStorageValue(STORAGE_REI_CAIDO) ~= 1 then
+		respond(player, npc, "Se deseja desafiar o Rei Caído, prepare-se. Nem todos retornam.")
+	else
+		respond(player, npc, "Você já caminhou onde reis tombaram. Poucos podem dizer o mesmo.")
+	end
+end)
+
+npcType:register(npcConfig)
