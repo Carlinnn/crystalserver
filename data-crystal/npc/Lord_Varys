@@ -113,4 +113,43 @@ end)
 -- =========================
 -- BOSSES
 -- =========================
-keywordHandler:addKeyword({"boss", "bosses"}
+keywordHandler:addKeyword({"boss", "bosses"}, function(player, npc)
+	if player:getLevel() < 100 then
+		npcHandler:say("Alguns nomes não devem ser ditos por iniciantes.", npc, player)
+		return
+	end
+
+	npcHandler:say(
+		"O Senhor das Chamas surge apenas sob lua cheia. A pressa é a sentença.",
+		npc, player
+	)
+end)
+
+-- =========================
+-- EVENTOS
+-- =========================
+keywordHandler:addKeyword({"event", "eventos"}, function(player, npc)
+	npcHandler:say(
+		"O mundo se move em ciclos. Os atentos sempre chegam antes.",
+		npc, player
+	)
+end)
+
+-- =========================
+-- DESAFIO DO REI CAÍDO
+-- =========================
+keywordHandler:addKeyword({"rei", "caido", "desafio"}, function(player, npc)
+	if player:getStorageValue(STORAGE_REI_CAIDO) ~= 1 then
+		npcHandler:say(
+			"Se deseja desafiar o Rei Caído, prepare-se. Nem todos retornam.",
+			npc, player
+		)
+	else
+		npcHandler:say(
+			"Você já caminhou onde reis tombaram. Poucos podem dizer isso.",
+			npc, player
+		)
+	end
+end)
+
+npcType:register(npcConfig)
