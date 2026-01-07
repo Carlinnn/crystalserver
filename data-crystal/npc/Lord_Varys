@@ -31,7 +31,7 @@ npcType.onCloseChannel = function(npc, creature) npcHandler:onCloseChannel(npc, 
 -- GREET PERSONALIZADO
 -- =========================
 npcHandler:setMessage(MESSAGE_GREET, "Shhh... nem todos devem me ouvir, |PLAYERNAME|.")
-npcHandler:setMessage(MESSAGE_FAREWELL, "O silencio guarda mais verdades do que o barulho.")
+npcHandler:setMessage(MESSAGE_FAREWELL, "O silencio guarda mais verdades do que o barulho")
 npcHandler:setMessage(MESSAGE_WALKAWAY, "Alguns segredos não gostam de despedidas.")
 
 -- 👉 REMOVE HI / HELLO
