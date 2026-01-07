@@ -10,15 +10,12 @@ npcConfig.maxHealth = 100
 npcConfig.walkInterval = 2500
 npcConfig.walkRadius = 7
 
-npcConfig.outfit = {
-	lookType = 57
-}
+npcConfig.outfit = { lookType = 57 }
 
-npcConfig.flags = {
-	floorchange = true
-}
+npcConfig.flags = { floorchange = true }
 
-local npcHandler = NpcHandler:new(KeywordHandler:new())
+local keywordHandler = KeywordHandler:new()
+local npcHandler = NpcHandler:new(keywordHandler)
 
 -- =========================
 -- EVENTOS PADRÃO
@@ -27,12 +24,18 @@ npcType.onThink = function(npc, interval) npcHandler:onThink(npc, interval) end
 npcType.onAppear = function(npc, creature) npcHandler:onAppear(npc, creature) end
 npcType.onDisappear = function(npc, creature) npcHandler:onDisappear(npc, creature) end
 npcType.onMove = function(npc, creature, fromPos, toPos) npcHandler:onMove(npc, creature, fromPos, toPos) end
-npcType.onCloseChannel = function(npc, creature) npcHandler:onCloseChannel(npc, creature) end
 npcType.onSay = function(npc, creature, type, message) npcHandler:onSay(npc, creature, type, message) end
+npcType.onCloseChannel = function(npc, creature) npcHandler:onCloseChannel(npc, creature) end
 
+-- =========================
+-- GREET PERSONALIZADO
+-- =========================
 npcHandler:setMessage(MESSAGE_GREET, "Shhh... nem todos devem me ouvir, |PLAYERNAME|.")
-npcHandler:setMessage(MESSAGE_FAREWELL, "O silêncio guarda mais verdades do que o barulho.")
+npcHandler:setMessage(MESSAGE_FAREWELL, "O silencio guarda mais verdades do que o barulho.")
 npcHandler:setMessage(MESSAGE_WALKAWAY, "Alguns segredos não gostam de despedidas.")
+
+-- 👉 REMOVE HI / HELLO
+npcHandler:setGreetWords({ "shhh", "shh" })
 
 npcHandler:addModule(FocusModule:new())
 
@@ -62,12 +65,11 @@ local function sayEnd(npc, player, text)
 end
 
 -- =========================
--- CALLBACK PRINCIPAL (CHAVE)
+-- CALLBACK PRINCIPAL
 -- =========================
 npcHandler:setCallback(CALLBACK_MESSAGE_DEFAULT, function(npc, player, message)
 	local msg = message:lower()
 
-	-- PALAVRA SECRETA
 	if msg == "sussurro" then
 		if player:getStorageValue(STORAGE_VARYS) < 1 then
 			player:setStorageValue(STORAGE_VARYS, 1)
@@ -80,7 +82,6 @@ npcHandler:setCallback(CALLBACK_MESSAGE_DEFAULT, function(npc, player, message)
 		return true
 	end
 
-	-- CACHOEIRA
 	if msg == "cachoeira" then
 		sayEnd(npc, player,
 			"Após as montanhas, depois do dragão, existe uma trilha esquecida. "
@@ -91,7 +92,6 @@ npcHandler:setCallback(CALLBACK_MESSAGE_DEFAULT, function(npc, player, message)
 		return true
 	end
 
-	-- QUEST
 	if msg == "quest" or msg == "segredo" or msg == "segredos" then
 		if player:getStorageValue(STORAGE_VARYS) < 1 then
 			sayEnd(npc, player, "Palavras vazias não abrem bocas seladas.")
