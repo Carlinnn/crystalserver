@@ -63,6 +63,27 @@ local STORAGE_VARYS = 90100
 local STORAGE_REI_CAIDO = 90101
 
 -- =========================
+-- FRASES FINAIS CANÔNICAS
+-- =========================
+local endingQuotes = {
+	"No Gordons, o poder não está nas espadas… está em quem sabe quando usá-las.",
+	"Meus pequenos pássaros voam até os lugares onde nem a magia ousa entrar.",
+	"Há heróis famosos neste mundo… e traidores ainda mais bem escondidos.",
+	"Nem todo inimigo vem armado. Alguns vêm sorrindo.",
+	"O reino sobrevive não pela força, mas pela informação.",
+	"Em Gordons, quem fala demais costuma desaparecer cedo.",
+	"As guerras começam muito antes do primeiro golpe.",
+	"A verdade é valiosa… por isso quase nunca é gratuita.",
+	"Observe quem evita o olhar — ali costuma morar o perigo.",
+	"Quando todos correm para a batalha, alguém precisa observar das sombras."
+}
+
+local function sayWithEnd(npc, player, text)
+	local ending = endingQuotes[math.random(#endingQuotes)]
+	npcHandler:say(text .. "\n\n" .. ending, npc, player)
+end
+
+-- =========================
 -- DIÁLOGOS CANÔNICOS
 -- =========================
 local varysDialogues = {
@@ -73,17 +94,16 @@ local varysDialogues = {
 }
 
 -- =========================
--- PALAVRA SECRETA / QUEST LOG
+-- PALAVRA SECRETA
 -- =========================
 keywordHandler:addKeyword({SECRET_WORD}, function(player, npc)
 	if player:getStorageValue(STORAGE_VARYS) < 1 then
 		player:setStorageValue(STORAGE_VARYS, 1)
-		npcHandler:say(
-			"Então você conhece o sussurro... Observe seu diário. Agora fazemos parte da mesma história.",
-			npc, player
+		sayWithEnd(npc, player,
+			"Então você conhece o sussurro... Observe seu diário. Agora fazemos parte da mesma história."
 		)
 	else
-		npcHandler:say("Os sussurros ainda ecoam. Pergunte com cuidado.", npc, player)
+		sayWithEnd(npc, player, "Os sussurros ainda ecoam. Pergunte com cuidado.")
 	end
 end)
 
@@ -92,22 +112,33 @@ end)
 -- =========================
 keywordHandler:addKeyword({"quest", "segredo", "segredos"}, function(player, npc)
 	if player:getStorageValue(STORAGE_VARYS) < 1 then
-		npcHandler:say("Palavras vazias não abrem bocas seladas.", npc, player)
+		sayWithEnd(npc, player, "Palavras vazias não abrem bocas seladas.")
 		return
 	end
 
 	local level = player:getLevel()
 
 	if level < 50 then
-		npcHandler:say("Você ainda escuta pouco. Volte quando o mundo pesar mais.", npc, player)
+		sayWithEnd(npc, player, "Você ainda escuta pouco. Volte quando o mundo pesar mais.")
 	elseif level < 150 then
-		npcHandler:say(varysDialogues[math.random(#varysDialogues)], npc, player)
+		sayWithEnd(npc, player, varysDialogues[math.random(#varysDialogues)])
 	else
-		npcHandler:say(
-			"Os antigos caminhos despertam. Onde reis caíram, o destino aguarda.",
-			npc, player
+		sayWithEnd(npc, player,
+			"Os antigos caminhos despertam. Onde reis caíram, o destino aguarda."
 		)
 	end
+end)
+
+-- =========================
+-- CACHOEIRA (NOVO)
+-- =========================
+keywordHandler:addKeyword({"cachoeira"}, function(player, npc)
+	sayWithEnd(npc, player,
+		"Há quem diga que após as montanhas, depois do dragão, existe uma trilha esquecida. "
+		.. "Ela leva ao topo de uma grande cachoeira, onde uma antiga estátua observa o mundo em silêncio. "
+		.. "Somente os corajosos ousam pular dali… e aqueles que sobrevivem encontram algo. "
+		.. "Ainda não sei o que é. Mas meus pequenos pássaros logo irão descobrir."
+	)
 end)
 
 -- =========================
@@ -115,13 +146,12 @@ end)
 -- =========================
 keywordHandler:addKeyword({"boss", "bosses"}, function(player, npc)
 	if player:getLevel() < 100 then
-		npcHandler:say("Alguns nomes não devem ser ditos por iniciantes.", npc, player)
+		sayWithEnd(npc, player, "Alguns nomes não devem ser ditos por iniciantes.")
 		return
 	end
 
-	npcHandler:say(
-		"O Senhor das Chamas surge apenas sob lua cheia. A pressa é a sentença.",
-		npc, player
+	sayWithEnd(npc, player,
+		"O Senhor das Chamas surge apenas sob lua cheia. A pressa é a sentença."
 	)
 end)
 
@@ -129,9 +159,8 @@ end)
 -- EVENTOS
 -- =========================
 keywordHandler:addKeyword({"event", "eventos"}, function(player, npc)
-	npcHandler:say(
-		"O mundo se move em ciclos. Os atentos sempre chegam antes.",
-		npc, player
+	sayWithEnd(npc, player,
+		"O mundo se move em ciclos. Os atentos sempre chegam antes."
 	)
 end)
 
@@ -140,14 +169,12 @@ end)
 -- =========================
 keywordHandler:addKeyword({"rei", "caido", "desafio"}, function(player, npc)
 	if player:getStorageValue(STORAGE_REI_CAIDO) ~= 1 then
-		npcHandler:say(
-			"Se deseja desafiar o Rei Caído, prepare-se. Nem todos retornam.",
-			npc, player
+		sayWithEnd(npc, player,
+			"Se deseja desafiar o Rei Caído, prepare-se. Nem todos retornam."
 		)
 	else
-		npcHandler:say(
-			"Você já caminhou onde reis tombaram. Poucos podem dizer isso.",
-			npc, player
+		sayWithEnd(npc, player,
+			"Você já caminhou onde reis tombaram. Poucos podem dizer isso."
 		)
 	end
 end)
