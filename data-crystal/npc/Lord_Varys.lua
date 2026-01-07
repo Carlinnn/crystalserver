@@ -60,9 +60,10 @@ npcHandler:setMessage(MESSAGE_GREET, "Shhh... nem todos devem me ouvir, |PLAYERN
 npcHandler:setMessage(MESSAGE_FAREWELL, "O silêncio guarda mais verdades do que o barulho.")
 npcHandler:setMessage(MESSAGE_WALKAWAY, "Alguns segredos não gostam de despedidas.")
 
-npcHandler:addModule(FocusModule:new(), npcConfig.name, true, true, true)
+-- Desabilitamos o greetCallback automático do FocusModule para remover hi/hello
+npcHandler:addModule(FocusModule:new(), npcConfig.name, false, true, true)
 
--- Adicionando "shhh" como palavra de saudação
+-- Adicionado manualmente APENAS as palavras secretas para focar o NPC
 keywordHandler:addKeyword({ "shhh" }, StdModule.greet, { npcHandler = npcHandler })
 keywordHandler:addKeyword({ "shh" }, StdModule.greet, { npcHandler = npcHandler })
 
