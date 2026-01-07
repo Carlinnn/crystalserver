@@ -137,7 +137,9 @@ mType.onThink = function(monster, interval)
 	firstTime = firstTime + interval
 	-- Run only 15 seconds before creation
 	if firstTime >= 15000 then
-		monster:goshnarsDefenseIncrease("greedy-maw-action")
+		if monster.goshnarsDefenseIncrease then
+			monster:goshnarsDefenseIncrease("greedy-maw-action")
+		end
 	end
 end
 

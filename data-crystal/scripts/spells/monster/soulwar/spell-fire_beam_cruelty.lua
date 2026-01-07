@@ -49,7 +49,10 @@ end
 local spell = Spell("instant")
 
 function spell.onCastSpell(creature, var, isHotkey)
-	return creature:applyZoneEffect(var, combat, "boss.goshnar's-cruelty")
+	if creature.applyZoneEffect then
+		return creature:applyZoneEffect(var, combat, "boss.goshnar's-cruelty")
+	end
+	return combat:execute(creature, var)
 end
 
 spell:name("cruelty transform elemental")

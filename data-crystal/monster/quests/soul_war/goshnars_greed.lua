@@ -135,6 +135,12 @@ monster.immunities = {
 local immuneTimeCount = 0
 local isImmune = nil
 local createdSoulSphere = nil
+
+-- Fallback for missing global
+if GreedbeastKills == nil then
+	GreedbeastKills = 0
+end
+
 mType.onThink = function(monsterCallback, interval)
 	if GreedbeastKills >= 5 and isImmune == nil then
 		isImmune = monsterCallback:immune(false)
