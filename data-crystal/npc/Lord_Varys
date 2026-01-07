@@ -98,7 +98,7 @@ keywordHandler:addKeyword({SECRET_WORD}, function(player, npc)
 		player:setStorageValue(STORAGE_VARYS, 1)
 		respond(player, npc, "Então você conhece o sussurro... agora posso falar.")
 	else
-		respond(player, npc, "Já nos entendemos. Ouça com atenção.")
+		respond(player, npc, "Já nos entendemos. Ouça com atenção")
 	end
 end)
 
