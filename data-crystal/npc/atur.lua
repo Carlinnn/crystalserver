@@ -73,7 +73,7 @@ local function creatureSayCallback(npc, creature, type, message)
 	return true
 end
 
-npcHandler:setMessage(MESSAGE_GREET, "Bem-vindo ao banco Tibiano, |PLAYERNAME|. O que posso fazer por você?")
+npcHandler:setMessage(MESSAGE_GREET, "Bem-vindo ao banco do GordonsOT, |PLAYERNAME|. O que posso fazer por você?")
 npcHandler:setMessage(MESSAGE_FAREWELL, "Adeus.")
 npcHandler:setMessage(MESSAGE_WALKAWAY, "Adeus.")
 npcHandler:setCallback(CALLBACK_GREET, NpcBankGreetCallback)
