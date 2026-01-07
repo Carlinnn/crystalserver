@@ -63,9 +63,17 @@ npcHandler:setMessage(MESSAGE_WALKAWAY, "Alguns segredos não gostam de despedid
 -- Desabilitamos o greetCallback automático do FocusModule para remover hi/hello
 npcHandler:addModule(FocusModule:new(), npcConfig.name, false, true, true)
 
+-- Função manual de saudação para garantir o foco
+local function customGreet(npc, creature, message, keywords, parameters)
+	if npcHandler:onGreet(npc, creature, message) then
+		return true
+	end
+	return false
+end
+
 -- Adicionado manualmente APENAS as palavras secretas para focar o NPC
-keywordHandler:addKeyword({ "shhh" }, StdModule.greet, { npcHandler = npcHandler })
-keywordHandler:addKeyword({ "shh" }, StdModule.greet, { npcHandler = npcHandler })
+keywordHandler:addKeyword({ "shhh" }, customGreet, { npcHandler = npcHandler })
+keywordHandler:addKeyword({ "shh" }, customGreet, { npcHandler = npcHandler })
 
 -- =========================
 -- STORAGE E ENDINGS
