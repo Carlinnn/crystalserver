@@ -3,6 +3,7 @@ local effects = {
     {position = Position(482, 488, 7), text = 'TRAINERS', effect = CONST_ME_WATERCREATURE},
     {position = Position(480, 487, 7), text = 'HUNTS', effect = CONST_ME_GREENSMOKE},
     {position = Position(478, 488, 7), text = 'RAID', effect = CONST_ME_PURPLEENERGY},
+    {position = Position(477, 492, 6), text = 'FORJA', effect = CONST_ME_WATERCREATURE},
 }
 
 local animatedText = GlobalEvent("AnimatedText") 
