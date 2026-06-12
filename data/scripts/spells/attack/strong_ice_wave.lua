@@ -4,9 +4,10 @@ combat:setParameter(COMBAT_PARAM_EFFECT, CONST_ME_ICEAREA)
 combat:setArea(createCombatArea(AREA_SHORTWAVE3))
 
 function onGetFormulaValues(player, level, maglevel)
+	local mult = getLevelDamageMultiplier(player)
 	local min = (level / 5) + (maglevel * 4.5) + 20
 	local max = (level / 5) + (maglevel * 7.6) + 48
-	return -min, -max
+	return math.floor(-min * mult), math.floor(-max * mult)
 end
 
 combat:setCallback(CALLBACK_PARAM_LEVELMAGICVALUE, "onGetFormulaValues")

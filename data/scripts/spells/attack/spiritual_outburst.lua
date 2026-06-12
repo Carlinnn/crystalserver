@@ -103,6 +103,7 @@ local config = {
 }
 
 local function onGetFormulaValues(player, weaponDamage)
+	local mult = getLevelDamageMultiplier(player)
 	local basePower = 42
 
 	local skill = player:getSkillLevel(SKILL_FIRST)

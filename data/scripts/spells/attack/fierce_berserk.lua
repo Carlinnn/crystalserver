@@ -6,12 +6,13 @@ combat:setParameter(COMBAT_PARAM_USECHARGES, 1)
 combat:setArea(createCombatArea(AREA_SQUARE1X1))
 
 function onGetFormulaValues(player, skill, attack, factor)
+	local mult = getLevelDamageMultiplier(player)
 	local level = player:getLevel()
 
 	local min = (level / 5) + (skill + 2 * attack) * 1.1
 	local max = (level / 5) + (skill + 2 * attack) * 3
 
-	return -min * 1.1, -max * 1.1 -- TODO : Use New Real Formula instead of an %
+	return math.floor((-min * 1.1) * mult), math.floor((-max * 1.1) * mult)
 end
 
 combat:setCallback(CALLBACK_PARAM_SKILLVALUE, "onGetFormulaValues")

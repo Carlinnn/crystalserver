@@ -4,9 +4,10 @@ combat:setParameter(COMBAT_PARAM_EFFECT, CONST_ME_SMALLPLANTS)
 combat:setArea(createCombatArea(AREA_RING1_BURST3))
 
 function onGetFormulaValues(player, level, maglevel)
+	local mult = getLevelDamageMultiplier(player)
 	local min = (level / 5) + (maglevel * 7)
 	local max = (level / 5) + (maglevel * 10.5)
-	return -min, -max
+	return math.floor(-min * mult), math.floor(-max * mult)
 end
 
 combat:setCallback(CALLBACK_PARAM_LEVELMAGICVALUE, "onGetFormulaValues")

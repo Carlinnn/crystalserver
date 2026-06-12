@@ -6,9 +6,10 @@ local area = createCombatArea(AREA_WAVE7, AREADIAGONAL_WAVE7)
 combat:setArea(area)
 
 function onGetFormulaValues(player, level, maglevel)
+	local mult = getLevelDamageMultiplier(player)
 	local min = (level / 5) + (maglevel * 2.8) + 16
 	local max = (level / 5) + (maglevel * 4.4) + 28 -- TODO: Formulas (TibiaWiki says ~Strong Flame Strike but we need more acurracy)
-	return -min, -max
+	return math.floor(-min * mult), math.floor(-max * mult)
 end
 
 combat:setCallback(CALLBACK_PARAM_LEVELMAGICVALUE, "onGetFormulaValues")

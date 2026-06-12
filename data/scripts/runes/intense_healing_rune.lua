@@ -6,9 +6,10 @@ healingCombat:setParameter(COMBAT_PARAM_TARGETCASTERORTOPMOST, true)
 healingCombat:setParameter(COMBAT_PARAM_DISPEL, CONDITION_PARALYZE)
 
 function onGetHealingValues(player, level, maglevel)
+	local mult = getLevelHealMultiplier(player)
 	local min = (level / 5) + (maglevel * 3.2) + 20
 	local max = (level / 5) + (maglevel * 5.4) + 40
-	return min, max
+	return math.floor(min * mult), math.floor(max * mult)
 end
 healingCombat:setCallback(CALLBACK_PARAM_LEVELMAGICVALUE, "onGetHealingValues")
 

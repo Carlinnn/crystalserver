@@ -24,11 +24,12 @@ combatEarth:setParameter(COMBAT_PARAM_EFFECT, CONST_ME_GREEN_FLURRYOFBLOWS)
 combatEarth:setArea(createCombatArea(AREA_WAVE))
 
 function onGetFormulaValues(player, skill, weaponDamage, attackFactor)
+	local mult = getLevelDamageMultiplier(player)
 	local basePower = 55
 	local attackValue = calculateAttackValue(player, skill, weaponDamage)
 	local spellFactor = 0.6
 	local total = (basePower * attackValue) / 100 + (spellFactor * attackValue)
-	return -total * 0.9, -total * 1.1
+	return math.floor((-total * 0.9) * mult), math.floor((-total * 1.1) * mult)
 end
 
 onGetFormulaValuesEnergy = loadstring(string.dump(onGetFormulaValues))

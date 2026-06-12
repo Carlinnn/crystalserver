@@ -13,11 +13,12 @@ combatEarth:setParameter(COMBAT_PARAM_TYPE, COMBAT_EARTHDAMAGE)
 combatEarth:setParameter(COMBAT_PARAM_EFFECT, CONST_ME_GREEN_TIGERCLASH)
 
 function onGetFormulaValues(player, skill, weaponDamage, attackFactor)
+	local mult = getLevelDamageMultiplier(player)
 	local basePower = 18
 	local attackValue = calculateAttackValue(player, skill, weaponDamage)
 	local spellFactor = 0.7
 	local total = (basePower * attackValue) / 100 + (spellFactor * attackValue)
-	return -total * 0.9, -total * 1.1
+	return math.floor((-total * 0.9) * mult), math.floor((-total * 1.1) * mult)
 end
 
 onGetFormulaValuesEnergy = loadstring(string.dump(onGetFormulaValues))

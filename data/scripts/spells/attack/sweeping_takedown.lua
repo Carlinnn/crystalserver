@@ -45,11 +45,12 @@ combatEarth2:setParameter(COMBAT_PARAM_EFFECT, CONST_ME_GREEN_EXPLOSIONHIT)
 combatEarth2:setArea(createCombatArea(AREA_WAVE_2))
 
 function onGetFormulaValues(player, skill, weaponDamage, attackFactor)
+	local mult = getLevelDamageMultiplier(player)
 	local basePower = 48
 	local attackValue = calculateAttackValue(player, skill, weaponDamage)
 	local spellFactor = 1.0
 	local total = (basePower * attackValue) / 100 + (spellFactor * attackValue)
-	return -total * 0.9, -total * 1.1
+	return math.floor((-total * 0.9) * mult), math.floor((-total * 1.1) * mult)
 end
 
 onGetFormulaValuesPhysical1 = loadstring(string.dump(onGetFormulaValues))

@@ -9,9 +9,6 @@
 	<house name="Karmia House IX" houseid="9" entryx="485" entryy="530" entryz="7" rent="12000" townid="1" size="61" clientid="0" beds="3" />
 	<house name="Karmia House X" houseid="10" entryx="460" entryy="512" entryz="6" rent="10000" townid="1" size="48" clientid="0" beds="3" />
 	<house name="Karmia House XI" houseid="11" entryx="463" entryy="512" entryz="6" rent="10000" townid="1" size="46" clientid="0" beds="3" />
-	<house name="Karmia House XII" houseid="12" entryx="479" entryy="498" entryz="7" rent="6000" townid="1" size="30" clientid="0" beds="3" />
-	<house name="Karmia House XIII" houseid="13" entryx="483" entryy="501" entryz="7" rent="6000" townid="1" size="37" clientid="0" beds="3" />
-	<house name="Karmia House XIV" houseid="14" entryx="486" entryy="499" entryz="6" rent="4000" townid="1" size="21" clientid="0" beds="3" />
 	<house name="Desert House I" houseid="15" entryx="360" entryy="505" entryz="7" rent="5000" townid="2" size="36" clientid="0" beds="3" />
 	<house name="Desert House II" houseid="16" entryx="342" entryy="504" entryz="7" rent="5000" townid="2" size="36" clientid="0" beds="3" />
 	<house name="Desert House III" houseid="17" entryx="320" entryy="492" entryz="7" rent="5000" townid="2" size="37" clientid="0" beds="3" />

@@ -110,6 +110,7 @@ local config = {
 }
 
 local function onGetFormulaValues(player, weaponDamage)
+	local mult = getLevelDamageMultiplier(player)
 	local basePower = 70
 
 	--[[

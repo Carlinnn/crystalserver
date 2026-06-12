@@ -5,6 +5,7 @@ local function formulaFunction(player, level, maglevel)
 end
 
 function onGetFormulaValues(player, level, maglevel)
+	local mult = getLevelDamageMultiplier(player)
 	return formulaFunction(player, level, maglevel)
 end
 

@@ -4,9 +4,10 @@ combat:setParameter(COMBAT_PARAM_EFFECT, CONST_ME_STONES)
 combat:setParameter(COMBAT_PARAM_DISTANCEEFFECT, CONST_ANI_EARTH)
 
 function onGetFormulaValues(player, level, maglevel)
+	local mult = getLevelDamageMultiplier(player)
 	local min = (level / 5) + (maglevel * 0.4) + 2
 	local max = (level / 5) + (maglevel * 1.59) + 10
-	return -min, -max
+	return math.floor(-min * mult), math.floor(-max * mult)
 end
 
 combat:setCallback(CALLBACK_PARAM_LEVELMAGICVALUE, "onGetFormulaValues")
@@ -27,7 +28,7 @@ rune:allowFarUse(true)
 rune:charges(10)
 rune:level(24)
 rune:magicLevel(3)
-rune:cooldown(2 * 1000)
-rune:groupCooldown(2 * 1000)
+rune:cooldown(1 * 1000)
+rune:groupCooldown(1 * 1000)
 rune:needTarget(true) -- True = Solid / False = Creature
 rune:register()

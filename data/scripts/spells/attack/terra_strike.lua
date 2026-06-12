@@ -4,9 +4,10 @@ combat:setParameter(COMBAT_PARAM_EFFECT, CONST_ME_CARNIPHILA)
 combat:setParameter(COMBAT_PARAM_DISTANCEEFFECT, CONST_ANI_SMALLEARTH)
 
 function onGetFormulaValues(player, level, maglevel)
+	local mult = getLevelDamageMultiplier(player)
 	local min = (level / 5) + (maglevel * 1.403) + 8
 	local max = (level / 5) + (maglevel * 2.203) + 13
-	return -min, -max
+	return math.floor(-min * mult), math.floor(-max * mult)
 end
 
 combat:setCallback(CALLBACK_PARAM_LEVELMAGICVALUE, "onGetFormulaValues")

@@ -4,9 +4,10 @@ combat:setParameter(COMBAT_PARAM_EFFECT, CONST_ME_ENERGYAREA)
 combat:setParameter(COMBAT_PARAM_DISTANCEEFFECT, CONST_ANI_ENERGY)
 
 function onGetFormulaValues(player, level, maglevel)
+	local mult = getLevelDamageMultiplier(player)
 	local min = (level / 5) + (maglevel * 0.4) + 3
 	local max = (level / 5) + (maglevel * 0.8) + 5
-	return -min, -max
+	return math.floor(-min * mult), math.floor(-max * mult)
 end
 
 combat:setCallback(CALLBACK_PARAM_LEVELMAGICVALUE, "onGetFormulaValues")
@@ -27,8 +28,8 @@ rune:allowFarUse(true)
 rune:charges(10)
 rune:level(1)
 rune:magicLevel(0)
-rune:cooldown(2 * 1000)
-rune:groupCooldown(2 * 1000)
+rune:cooldown(1 * 1000)
+rune:groupCooldown(1 * 1000)
 rune:needTarget(true)
 rune:isBlocking(true) -- True = Solid / False = Creature
 rune:vocation("sorcerer;true", "master sorcerer;true", "druid;true", "elder druid;true", "paladin;true", "royal paladin;true")

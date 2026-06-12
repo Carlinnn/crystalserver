@@ -6,7 +6,8 @@ combat:setParameter(COMBAT_PARAM_AGGRESSIVE, false)
 combat:setFormula(COMBAT_FORMULA_DAMAGE, -5, 0, -9, 0)
 
 function onGetFormulaValues(player, level, magicLevel)
-	return 5, 9
+	local mult = getLevelHealMultiplier(player)
+	return math.floor(5 * mult), math.floor(9 * mult)
 end
 
 combat:setCallback(CALLBACK_PARAM_LEVELMAGICVALUE, "onGetFormulaValues")

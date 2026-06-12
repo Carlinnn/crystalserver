@@ -1,3 +1,5 @@
+-- TODO: Requires Storage.Quest.U8_4 (BloodBrothers) and Storage.Quest.U8_2 (VampireHunterQuest) to be defined
+--[[
 local Castlemania = CreatureEvent("Castlemania")
 
 function Castlemania.onLogin(player)
@@ -51,3 +53,4 @@ function Castlemania.onLogin(player)
 end
 
 Castlemania:register()
+--]]

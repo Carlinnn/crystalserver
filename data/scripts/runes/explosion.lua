@@ -6,9 +6,10 @@ combat:setParameter(COMBAT_PARAM_BLOCKARMOR, 1)
 combat:setArea(createCombatArea(AREA_CIRCLE1X1))
 
 function onGetFormulaValues(player, level, maglevel)
+	local mult = getLevelDamageMultiplier(player)
 	local min = 0
 	local max = (level / 5) + (maglevel * 4.8)
-	return -min, -max
+	return math.floor(-min * mult), math.floor(-max * mult)
 end
 
 combat:setCallback(CALLBACK_PARAM_LEVELMAGICVALUE, "onGetFormulaValues")
@@ -29,7 +30,7 @@ rune:allowFarUse(true)
 rune:charges(6)
 rune:level(31)
 rune:magicLevel(6)
-rune:cooldown(2 * 1000)
-rune:groupCooldown(2 * 1000)
+rune:cooldown(1 * 1000)
+rune:groupCooldown(1 * 1000)
 rune:isBlocking(true) -- True = Solid / False = Creature
 rune:register()

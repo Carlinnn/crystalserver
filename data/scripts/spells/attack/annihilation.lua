@@ -6,9 +6,10 @@ combat:setParameter(COMBAT_PARAM_BLOCKARMOR, 1)
 combat:setParameter(COMBAT_PARAM_USECHARGES, 1)
 
 function onGetFormulaValues(player, skill, attack, factor)
+	local mult = getLevelDamageMultiplier(player)
 	local skillTotal = skill * attack
 	local levelTotal = player:getLevel() / 5
-	return -(((skillTotal * 0.17) + 13) + levelTotal) * 1.28, -(((skillTotal * 0.20) + 34) + levelTotal) * 1.28 -- TODO : Use New Real Formula instead of an %
+	return math.floor((-(((skillTotal * 0.17) + 13) + levelTotal) * 1.28) * mult), math.floor((-(((skillTotal * 0.20) + 34) + levelTotal) * 1.28) * mult)
 end
 
 combat:setCallback(CALLBACK_PARAM_SKILLVALUE, "onGetFormulaValues")

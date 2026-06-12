@@ -1,7 +1,8 @@
 function onGetFormulaValues(player, level, maglevel)
+	local mult = getLevelDamageMultiplier(player)
 	local min = (level / 5) + (maglevel * 5.5)
 	local max = (level / 5) + (maglevel * 9)
-	return -min, -max
+	return math.floor(-min * mult), math.floor(-max * mult)
 end
 
 local initCombat = Combat()

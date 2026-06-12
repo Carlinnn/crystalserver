@@ -43,6 +43,19 @@ namespace {
 
 		g_game().addMagicEffect(target->getPosition(), effect, player);
 	}
+
+	float getLevelDamageMultiplier(uint32_t level) {
+		if (level <= 200)  return 1.0f;
+		if (level <= 500)  return 1.30f;
+		if (level <= 1000) return 1.70f;
+		if (level <= 2000) return 2.20f;
+		if (level <= 3000) return 2.80f;
+		if (level <= 5000) return 3.50f;
+		if (level <= 7000) return 4.50f;
+		if (level <= 9000) return 5.50f;
+		if (level <= 10000) return 7.00f;
+		return 9.0f;
+	}
 } // namespace
 
 WeaponShared_ptr Weapons::getWeapon(const std::shared_ptr<Item> &item) const {
@@ -718,10 +731,11 @@ int32_t WeaponMelee::getWeaponDamage(const std::shared_ptr<Player> &player, cons
 
 	const float attackFactor = player->getAttackFactor();
 	const uint32_t level = player->getLevel();
+	const float lvlMult = getLevelDamageMultiplier(level);
 
-	const auto maxValue = static_cast<int32_t>(Weapons::getMaxWeaponDamage(level, attackSkill, combinedAttack, attackFactor, true) * player->getVocation()->meleeDamageMultiplier);
+	const auto maxValue = static_cast<int32_t>(Weapons::getMaxWeaponDamage(level, attackSkill, combinedAttack, attackFactor, true) * player->getVocation()->meleeDamageMultiplier * lvlMult);
 
-	const int32_t minValue = physicalAttack > 0 ? level / 5 : 0;
+	const int32_t minValue = physicalAttack > 0 ? static_cast<int32_t>((level / 5) * lvlMult) : 0;
 
 	if (maxDamage) {
 		return -maxValue;
@@ -996,9 +1010,10 @@ int32_t WeaponDistance::getWeaponDamage(const std::shared_ptr<Player> &player, c
 
 	const int32_t attackSkill = player->getSkillLevel(SKILL_DISTANCE);
 	const float attackFactor = player->getAttackFactor();
+	const float lvlMult = getLevelDamageMultiplier(player->getLevel());
 
-	int32_t minValue = player->getLevel() / 5;
-	int32_t maxValue = std::round((0.09f * attackFactor) * attackSkill * attackValue + minValue);
+	int32_t minValue = static_cast<int32_t>((player->getLevel() / 5) * lvlMult);
+	int32_t maxValue = static_cast<int32_t>(std::round(((0.09f * attackFactor) * attackSkill * attackValue + (player->getLevel() / 5)) * lvlMult));
 	if (maxDamage) {
 		return -maxValue;
 	}

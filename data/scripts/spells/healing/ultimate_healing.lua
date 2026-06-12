@@ -5,9 +5,10 @@ combat:setParameter(COMBAT_PARAM_DISPEL, CONDITION_PARALYZE)
 combat:setParameter(COMBAT_PARAM_AGGRESSIVE, false)
 
 function onGetFormulaValues(player, level, magicLevel)
+	local mult = getLevelHealMultiplier(player)
 	local min = (level / 5) + (magicLevel * 6.8) + 42
 	local max = (level / 5) + (magicLevel * 12.9) + 90
-	return min, max
+	return math.floor(min * mult), math.floor(max * mult)
 end
 
 combat:setCallback(CALLBACK_PARAM_LEVELMAGICVALUE, "onGetFormulaValues")
