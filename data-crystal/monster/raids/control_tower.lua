@@ -2,13 +2,13 @@ local mType = Game.createMonsterType("Control Tower")
 local monster = {}
 
 monster.description = "a control tower"
-monster.experience = 3000
+monster.experience = 1
 monster.outfit = {
 	lookTypeEx = 20894,
 }
 
-monster.health = 7500
-monster.maxHealth = 7500
+monster.health = 500000
+monster.maxHealth = 500000
 monster.race = "venom"
 monster.corpse = 21940
 monster.speed = 0
@@ -37,7 +37,7 @@ monster.flags = {
 	canPushItems = true,
 	canPushCreatures = false,
 	staticAttackChance = 90,
-	targetDistance = 1,
+	targetDistance = 5,
 	runHealth = 0,
 	healthHidden = true,
 	isBlockable = false,
@@ -48,7 +48,7 @@ monster.flags = {
 
 monster.light = {
 	level = 0,
-	color = 0,
+	color = 1,
 }
 
 monster.voices = {
@@ -63,8 +63,8 @@ monster.loot = {
 }
 
 monster.defenses = {
-	defense = 10,
-	armor = 10,
+	defense = 50,
+	armor = 20,
 	--	mitigation = ???,
 }
 

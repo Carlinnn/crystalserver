@@ -87367,4 +87367,10 @@
 	<item id="52963" article="a" name="skill trainer">
 		<attribute key="description" value="Use this statue to train your shielding skill and your melee or distance fighting or your magic level offline." />
 	</item>
+		<item id="54267" article="a" name="Exit Portal">
+		<attribute key="primarytype" value="teleporters" />
+		<attribute key="type" value="teleport" />
+		<attribute key="description" value="Entre para sair" />
+		<attribute key="effect" value="teleport" />
+	</item>
 </items>
